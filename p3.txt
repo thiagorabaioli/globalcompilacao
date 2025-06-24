@@ -1,0 +1,4794 @@
+Manual do Simulador do Processador P3
+
+Guilherme Arroz
+José Monteiro
+Arlindo Oliveira
+
+Instituto Superior Técnico
+Lisboa, Portugal
+Fevereiro 2005
+
+Conteúdo
+1
+
+Introdução
+
+2
+
+Arquitectura do Processador P3
+2.1 Registos . . . . . . . . . . .
+2.2 Bits de Estado . . . . . . . .
+2.3 Memória . . . . . . . . . . .
+2.4 Entradas/Saídas . . . . . . .
+2.5 Interrupções . . . . . . . . .
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+
+3
+3
+4
+4
+4
+5
+
+Assembler
+3.1 Evocação . . . . . . . . . .
+3.2 Conjunto de Instruções . .
+3.3 Constantes . . . . . . . . .
+3.4 Modos de Endereçamento
+3.5 Etiquetas . . . . . . . . . .
+3.6 Comentários . . . . . . . .
+3.7 Pseudo-Instruções . . . . .
+3.8 Instruções Assembly . . .
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+6
+6
+6
+7
+8
+9
+9
+9
+11
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+18
+18
+18
+19
+21
+21
+21
+22
+22
+23
+23
+23
+25
+25
+26
+26
+27
+28
+29
+
+3
+
+4
+
+3
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+Simulador
+4.1 Evocação . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2 Ambiente . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2.1 Menus . . . . . . . . . . . . . . . . . . . . . .
+4.2.2 Contadores de Instrução e Ciclos de Relógio
+4.2.3 Registos . . . . . . . . . . . . . . . . . . . . .
+4.2.4 Conteúdo da Memória . . . . . . . . . . . . .
+4.2.5 Programa Desassemblado . . . . . . . . . . .
+4.2.6 Comandos de Execução e Interrupção . . . .
+4.3 Depuração . . . . . . . . . . . . . . . . . . . . . . . .
+4.4 Unidade de Controlo . . . . . . . . . . . . . . . . . .
+4.4.1 Registos Internos à Unidade de Controlo . .
+4.4.2 Botão Clock . . . . . . . . . . . . . . . . . . .
+4.5 Micro-Programação . . . . . . . . . . . . . . . . . . .
+4.6 Dispositivos de Entrada e Saída . . . . . . . . . . . .
+4.6.1 Janela Texto . . . . . . . . . . . . . . . . . . .
+4.6.2 Janela Placa . . . . . . . . . . . . . . . . . . .
+4.6.3 Temporizador . . . . . . . . . . . . . . . . . .
+4.6.4 Máscara de Interrupções . . . . . . . . . . . .
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+A Formatos das Instruções Assembly
+
+31
+
+B Conteúdo das ROMs de Controlo
+
+35
+
+2
+
+1
+
+Introdução
+
+Este documento descreve a operação do simulador para o processador P3. Este programa
+permite simular a nível funcional o processador descrito nos Capítulos 11 e 12 do livro:
+Introdução à Arquitectura de Computadores
+G. Arroz, J. Monteiro e A. Oliveira
+IST Press, 1a Edição, 2006
+O simulador P3 é constituído por dois programas, pelo simulador propriamente dito,
+p3sim, e por um assembler, p3as. O programa p3as converte programas descritos na linguagem assembly daquele processador para um ficheiro objecto. Uma vez convertido para
+este formato objecto, o programa pode ser carregado para o simulador p3sim. O simulador
+p3sim permite não só a execução normal e passo-a-passo do programa, mas também a execução de apenas um ciclo de relógio. Este modo de funcionamento é útil para se observar a
+evolução passo-a-passo do micro-código. De forma a tornar mais interessante a interacção
+com o micro-processador, foram definidos um conjunto de dispositivos de entrada e saída.
+Em particular, este simulador emula todas as entradas e saídas da placa DIO5 da Digilent,
+Inc, utilizada nas aulas de laboratório da disciplina de Arquitectura de Computadores da
+Licenciatura em Engenharia Informática e de Computadores do Instituto Superior Técnico.
+Este documento está dividido em três partes. Na primeira parte introduz-se a arquitectura do processador P3. Na segunda parte, descreve-se a utilização do assembler p3as. Na
+terceira parte, é apresentado o simulador p3sim.
+
+2
+2.1
+
+Arquitectura do Processador P3
+Registos
+
+O processador P3 contém os seguintes registos visíveis ao programador:
+R0-R7: registos de uso genérico. O registo R0 não pode ser alterado e tem sempre o valor
+0.
+PC: program counter, contém o endereço da próxima instrução a executar. Não pode ser
+acedido directamente com instruções assembly, sendo alterado apenas com instruções de controlo da sequência de execução.
+SP: stack pointer, apontador para o topo da pilha. É utilizado também de forma indirecta, podendo apenas ser manipulado directamente (para a sua inicialização)
+através de uma instrução MOV SP, R[1-7].
+RE: registo de estado, registo onde estão guardados os bits de estado (flags) do processador, descritos na secção seguinte. Também não existem instruções para manipular
+este registo directamente.
+Todos estes registos são inicializados a 0 após um reset do processador.
+
+3
+
+2.2
+
+Bits de Estado
+
+Do ponto de vista do programador, existem 5 bits de estado, ou flags, neste processador. Os
+bits de estado estão guardados nos 5 bits menos significativos do registo RE, contendo os
+restantes bits deste registo o valor 0.
+O significado dos bits de estado, do bit de menor para o de maior peso do registo RE, é:
+O: overflow ou excesso, indica que o resultado da última operação aritmética excede a
+capacidade do operando destino. Por outras palavras, o resultado não pode ser representado em complemento para 2 com o número de bits disponíveis no operando
+destino, ficando este, portanto, com um valor incorrecto.
+N: negative ou sinal, indica que o resultado da última operação foi negativo, o que em
+complemento para 2 é equivalente a dizer que o bit mais significativo do operando
+destino ficou a 1.
+C: carry ou transporte, indica que a última operação gerou um bit de transporte para além
+da última posição do operando destino. Também pode ser modificado por software
+através das instruções STC, CLC e CMC.
+Z: zero, indica que o resultado da última operação foi 0.
+E: enable interrupts, habilita ou não as interrupções, conforme for 1 ou 0. Este é o único bit
+de estado que apenas é alterado por software, através das instruções ENI e DSI.
+
+2.3
+
+Memória
+
+O espaço de memória endereçável é de 64k palavras (barramento de endereços de 16 bits),
+em que cada palavra é de 16 bits (largura do barramento de dados). O acesso a uma posição de memória pode ser feito com qualquer instrução, usando o modo de endereçamento
+apropriado.
+
+2.4
+
+Entradas/Saídas
+
+O espaço de entradas e saídas (I/O) é memory mapped. Os endereços de memória a partir de
+FF00h estão reservados para o espaço de entradas/saídas. Assim, qualquer instrução pode
+ter acesso a um qualquer dispositivo de entrada/saída que esteja mapeado neste espaço
+superior de memória do processador.
+No caso do presente simulador, os dispositivos de entrada/saída disponíveis são:
+• janela de texto: dispositivo que fornece uma interface com o teclado e monitor do
+computador. Tem 4 portos de interface:
+– leitura, endereço FFFFh: porto que permite receber caracteres teclados na janela
+de texto;
+– escrita, endereço FFFEh: porto que permite escrever um dado caracter na janela
+de texto;
+– estado, endereço FFFDh: porto que permite testar se houve alguma tecla premida
+na janela de texto;
+4
+
+– controlo, endereço FFFCh: porto que permite posicionar o cursor na janela de
+texto, posição esta onde será escrito o próximo caracter.
+• botões de pressão: conjunto de 15 interruptores de pressão. A activação de cada um
+destes botões gera uma interrupção com o correspondente vector de interrupção.
+• interruptores, endereço FFF9h: conjunto de 8 interruptores cujo estado pode ser obtido
+por leitura deste endereço.
+• LEDs, endereço FFF8h: cada bit da palavra escrita neste porto define quais dos 16
+LEDs estão ligados.
+• display de 7 segmentos, endereços FFF0, FFF1h, FFF2h e FFF3h: cada um destes portos de escrita controla um conjunto de 7 LEDs que formam um display.
+• display de cristal líquido ou LCD: display de texto com 16 colunas e duas linhas. Tem 2
+portos de escrita:
+– dados, endereço FFF5h: porto que permite escrever um dado caracter no display;
+– controlo, endereço FFF4h: porto que permite particular, posicionar o cursor no
+display, posição esta onde será escrito o próximo caracter. Permite também limpar
+e apagar o LCD.
+• máscara de interrupções, endereço FFFAh: posição de um filtro que permite seleccionar individualmente quais dos 16 primeiros vectores de interrupção (de 0 a 15) estão
+habilitados. Após um reset, todos os bits da máscara de interrupção estão a 0.
+• temporizador: dispositivo que fornece a geração de uma interrupção ao fim de um
+intervalo de tempo real, especificado pelo utilizador. Tem 2 portos de interface:
+– controlo, endereço FFF7h: porto que permite arrancar (colocando o bit menos
+significativo a 1) ou parar (colocando esse bit a 0) o temporizador.
+– valor de contagem, endereço FFF6h: porto que permite indicar o número de intervalos de 100ms ao fim do qual o temporizador gerará uma interrupção.
+O controlo destes dispositivos é explicado em maior detalhe na Secção 4.6.
+
+2.5
+
+Interrupções
+
+O simulador disponibiliza 15 botões para a geração de interrupções externas (para além
+destas, o simulador tem apenas mais uma fonte de interrupções, o temporizador). Qualquer
+destas interrupções provoca a activação de um sinal INT, ligado a um dos pinos externos do
+processador. No final da execução de cada instrução, este sinal é testado para verificar se
+existe alguma interrupção pendente. Nesse caso, são efectuados dois testes:
+• o bit de estado E (enable interrupts) tem que estar activo.
+• o bit da máscara de interrupções correspondente a este vector de interrupção tem que
+estar activo.
+
+5
+
+Caso estas duas condições se verifiquem, é chamada a rotina de serviço dessa interrupção,
+determinada pelo vector de interrupção, lido do barramento de dados. Os endereços das
+rotinas de interrupção encontram-se na Tabela de Vectores de Interrupção, uma tabela com
+256 posições guardada em memória a partir do endereço FE00h. Assim, o contador de
+programa, PC, é carregado com o valor da posição de memória M[FE00h+vector].
+Por omissão, o vector de interrupção associado a cada um dos 15 botões de interrupção
+é simplesmente o índice do botão. Porém, este pode ser alterado pelo utilizador através da
+interface do simulador. Esta interface permite também desabilitar individualmente cada um
+dos botões de interrupção.
+O vector de interrupção associado ao temporizador é o 15, e este é fixo.
+A chamada à rotina de serviço da interrupção guarda o registo RE na pilha e desabilita as
+interrupções (E =0). É da responsabilidade do programador salvaguardar qualquer registo
+que seja modificado nesta rotina. A rotina deve ser terminada com a instrução RTI que repõe
+o valor de RE a partir da pilha.
+
+3
+3.1
+
+Assembler
+Evocação
+
+O modo de evocação do assembler p3as é simplesmente:
+$ p3as <nome>.as
+O nome do ficheiro assembly tem que ter extensão .as. Caso não haja erros de assembly, são
+gerados dois ficheiros:
+<nome>.exe: ficheiro com o código binário, pronto a ser executado no simulador p3sim.
+<nome>.lis: ficheiro com o valor atribuído às referências usadas no programa assembly.
+
+3.2
+
+Conjunto de Instruções
+
+As instruções assembly aceites pelo assembler p3as são as apresentadas na Tabela 10.4 do
+livro. Para além destas instruções, o assembler reconhece um conjunto de comandos (chamados de pseudo-instruções, Tabela 10.16 do livro) que, embora não gerem código binário,
+permitem reservar espaço para variáveis ou tornar o código mais legível. O total de instruções reconhecidas pelo p3as encontram-se na Tabela 1, agrupadas por classes. A condição
+.cond nas instruções de salto condicional (BR.cond, JMP.cond e CALL.cond) pode ser uma de:
+O, NO: bit de estado excesso (overflow)
+N, NN: bit de estado sinal (negative)
+C, NC: bit de estado transporte (carry)
+Z, NZ: bit de estado zero
+I, NI: bit que indica se existe alguma interrupção pendente
+P, NP: resultado positivo (Z ∧ N)
+6
+
+Tabela 1: Conjunto de instruções do P3.
+Pseudo
+
+Aritméticas
+
+Lógicas
+
+Deslocamento
+
+ORIG
+EQU
+WORD
+STR
+TAB
+
+NEG
+INC
+DEC
+ADD
+ADDC
+SUB
+SUBB
+CMP
+MUL
+DIV
+
+COM
+AND
+OR
+XOR
+TEST
+
+SHR
+SHL
+SHRA
+SHLA
+ROR
+ROL
+RORC
+ROLC
+
+Controlo
+
+BR
+BR.cond
+JMP
+JMP.cond
+CALL
+CALL.cond
+RET
+RETN
+RTI
+INT
+
+Transfer.
+
+Genéricas
+
+MOV
+MVBH
+MVBL
+XCH
+PUSH
+POP
+
+NOP
+ENI
+DSI
+STC
+CLC
+CMC
+
+Estas combinações permitem testar cada uma destas condições e realizar o salto caso a condição seja a 1 ou a 0, respectivamente.
+As instruções aritméticas assumem os operandos em formato de complemento para 2.
+As excepções a esta regra são a multiplicação e a divisão que assumem números sem sinal.
+No caso destas duas operações, terá que ser o programador a ter o cuidado de manipular o
+sinal à parte.
+Neste conjunto, há instruções de 0, 1 e 2 operandos. Nas instruções de 2 operandos, um
+deles tem que ser necessariamente um registo. O outro operando pode ter diversos modos
+de endereçamento, como se explica em seguida. Os detalhes do funcionamento de cada
+instrução (a operação realizada e os bits de estado alterados) são também apresentados mais
+adiante.
+
+3.3
+
+Constantes
+
+O facto do processador P3 ser um processador de 16 bits define os valores máximos possíveis
+de especificar para uma constante. Assim, o intervalo válido para inteiros positivos será de
+0 a 216 − 1 e para inteiros em complemento para 2 de −215 a +215 − 1.
+Valores constantes podem ser especificados de três formas no código assembly:
+Valor numérico em binário: para uma constante numérica ser interpretada em binário deve
+ser terminada com a letra b; são válidos valores entre -100000000000000b e
+1111111111111111b.
+Valor numérico em octal: para uma constante numérica ser interpretada em octal deve ser
+terminada com a letra o; são válidos valores entre -100000o e 177777o.
+Valor numérico em decimal: qualquer valor inteiro entre -32768 e 65535. Pode opcionalmente ser terminada com a letra d, embora tal seja assumido quando nenhuma outra
+base for indicada;
+Valor numérico em hexadecimal: para uma constante numérica ser interpretada em hexadecimal deve ser terminada com a letra h; são válidos valores entre -8000h e FFFFh.
+Caracter alfanumérico: um caracter entre plicas, por exemplo, ’g’, é convertido para o seu
+código ASCII.
+7
+
+Notar, no entanto, que o uso de constantes no meio do código assembly (ou de qualquer
+outra linguagem de programação) é extremamente desaconselhável. Em vez disso, deve-se
+usar o comando EQU para definir constantes (ver Secção 3.7). Esta prática, por um lado, torna
+o código mais legível, pois o símbolo associado à constante, se convenientemente escolhido,
+dá uma pista sobre a acção que se está a tomar, e, por outro lado, permite uma actualização
+mais fácil do código, pois constantes que estão associadas não têm que ser alteradas em
+vários sítios dentro do código (porventura falhando-se alguma), mas simplesmente na linha
+do comando EQU.
+
+3.4
+
+Modos de Endereçamento
+
+Os operandos usados nas instruções assembly podem ter 7 modos de endereçamento, a seguir
+indicados. O significado dos símbolos usados nesta secção é:
+op:
+Rx:
+W:
+M[y]:
+PC:
+SP:
+
+operando;
+registo Rx. O processador tem 8 registos visíveis para o programador,
+portanto 0 ≤ x ≤ 7, em que R0 é sempre igual a 0;
+constante de valor W (de 16 bits);
+referência à posição de memória com endereço y;
+registo contador de programa (program counter);
+registo do apontador para o topo da pilha (stack pointer)
+op = Rx
+
+Endereçamento por Registo
+O valor do operando é o conteúdo do registo Rx.
+
+op = M[Rx]
+
+Endereçamento por Registo Indirecto
+
+O valor do operando é o conteúdo da posição de memória cujo endereço é o conteúdo do
+registo Rx.
+op = W
+
+Endereçamento Imediato
+
+O valor do operando é W. Naturalmente, este modo não pode ser usado como operando
+destino.
+op = M[W]
+
+Endereçamento Directo
+O valor do operando é o conteúdo da posição de memória com o endereço W.
+
+op = M[Rx+W]
+
+Endereçamento Indexado
+
+O valor do operando é o conteúdo da posição de memória com o endereço resultante da
+soma de W com o conteúdo de Rx, Rx+W. Nota: a versão W+Rx não é aceite pelo assembler.
+op = M[PC+W]
+
+Endereçamento Relativo
+
+O valor do operando é o conteúdo da posição de memória com o endereço resultante da
+soma de W com o conteúdo de PC, PC+W. Nota: a versão W+PC não é aceite pelo assembler.
+
+8
+
+op = M[SP+W]
+
+Endereçamento Baseado
+
+O valor do operando é o conteúdo da posição de memória com o endereço resultante da
+soma de W com o conteúdo de SP, SP+W. Nota: a versão W+SP não é aceite pelo assembler.
+Na utilização destes modos de endereçamento, existem as seguintes restrições:
+- no caso das instruções com 2 operandos, para um deles tem que ser necessariamente
+usado o endereçamento por registo.
+- o modo imediato não pode ser usado como operando destino, por razões óbvias.
+- as instruções MUL e DIV, por usarem como destino ambos os operandos (ver descrição
+adiante), não podem usar o modo imediato em nenhum dos operandos. Além disso,
+os dois operandos não devem ser o mesmo devido a limitações na arquitectura do
+processador que provoca que parte do resultado se perca.
+
+3.5
+
+Etiquetas
+
+Para referenciar uma dada posição de memória, pode-se colocar uma etiqueta (label) antes da
+instrução que vai ficar nessa posição. A etiqueta consiste num nome (conjunto de caracteres
+alfanuméricos, mais o caracter ’_’, em que o primeiro não pode ser um algarismo) seguida
+de ’:’. Por exemplo,
+VoltaAqui: INC R1
+Se agora se quiser fazer um salto para esta instrução, pode-se usar:
+BR VoltaAqui
+em vez de se calcular o endereço em que a instrução INC R1 ficará depois da assemblagem.
+Para facilitar a leitura do código assembly, convenciona-se que estas etiquetas são palavras capitalizadas todas juntas: primeira letra de cada palavra em maiúsculas e restantes em
+minúsculas, como no exemplo anterior VoltaAqui.
+O valor atribuído às etiquetas pode ser consultado no ficheiro com a extensão .lis,
+gerado quando da execução do p3as.
+
+3.6
+
+Comentários
+
+Um comentário começa com o caracter ’;’, que indica ao assembler que todo o texto que se
+segue nessa linha deverá ser ignorado no processo de tradução do código assembly.
+
+3.7
+
+Pseudo-Instruções
+
+Chamam-se pseudo-instruções ao conjunto de comandos reconhecidos pelo assembler que
+não são instruções assembly, mas que permitem dar ao assembler um conjunto de informações
+e directivas necessárias para a sua correcta execução ou para simplificar a sua utilização. A
+função das pseudo-instruções é, por um lado, controlar a forma como o código é gerado
+(por exemplo, indicando as posições de memória onde colocar o executável ou reservando
+posições de memória para dados), por outro lado, permitir definir símbolos (constantes ou
+posições de memória) que tornam o código mais legível e mais fácil de programar. Nesta
+secção descrevem-se as pseudo-instruções usadas pelo assembler p3as.
+9
+
+ORIG
+Formato: ORIG <endereço>
+Função: o comando ORIG permite especificar no campo <endereço> a primeira posição de
+memória em que um bloco de programa ou dados é carregado em memória. Este comando
+pode aparecer várias vezes no código, permitindo que se definam blocos em diferentes zonas de memória.
+EQU
+Formato: <símbolo> EQU <const>
+Função: o comando EQU permite associar um valor const a um símbolo. Convenciona-se
+que estes símbolos são palavras todas em maiúsculas, com uso possível do caracter de separação ’_’, por exemplo, NUM_LINHAS.
+Nota: Este comando associa um nome a uma constante. Isto permite que, no código assembly, em vez de um valor numérico que em geral não dá muita informação, se use um nome
+que pode indicar que tipo de acção se está a tomar nesse ponto do código. Adicionalmente,
+permite que numa posterior alteração baste alterar a linha do comando EQU para que a alteração se propague pelo código todo.
+WORD
+Formato: <etiqueta> WORD <const>
+Função: o comando WORD permite reservar uma posição de memória para conter uma variável do programa assembly, associando a essa posição o nome especificado em <etiqueta>.
+O campo const indica o valor a que essa posição de memória deve ser inicializada. Convenciona-se que estas etiquetas são palavras capitalizadas todas juntas: primeira letra de
+cada palavra em maiúsculas e restantes em minúsculas, por exemplo CicloInterno.
+STR
+Formato: <etiqueta> STR ’<texto>’|<const>[,’<texto>’|<const>]
+Função: o comando STR coloca em posições de memória consecutivas o texto que estiver
+entre plicas ou o valor de <const>. No caso de <texto>, o código ASCII de cada caracter entre plicas fica numa posição de memória (portanto usa tantas posições de memória
+quantos os caracteres em <texto>). Podem-se usar mais do que um parâmetro, separados
+por vírgulas, sendo feita a sua concatenação em memória. <etiqueta> fica com o endereço
+do primeiro caracter. A convenção para os nomes destas etiquetas é o mesmo que para WORD.
+TAB
+Formato: <etiqueta> TAB <const>
+Função: o comando TAB reserva o número de posições de memória especificados no campo
+<const> sem as inicializar com qualquer valor. <etiqueta> fica com o endereço da primeira posição. A convenção para os nomes destas etiquetas é o mesmo que para WORD e
+STR.
+
+10
+
+3.8
+
+Instruções Assembly
+
+As instruções assembly válidas para o micro-processador P3 são apresentadas em seguida
+por ordem alfabética. É indicado o formato da instrução, a função realizada e as flags alteradas (Z, zero; C, carry ou transporte; N, negative ou sinal; O, overflow ou excesso; E, enable das
+interrupções).
+ADD
+Flags: ZCNO
+
+Formato: ADD op1, op2
+Acção: op1 ← op1 + op2, soma a op1 o valor de op2.
+ADDC
+
+Flags: ZCNO
+
+Formato: ADDC op1, op2
+
+Acção: op1 ← op1 + op2 + C, igual a ADD excepto que soma mais um caso o bit de estado
+transporte esteja a 1.
+AND
+Flags: ZN
+
+Formato: AND op1, op2
+Acção: op1 ← op1 ∧ op2. Faz o AND lógico bit-a-bit dos dois operandos.
+BR
+
+Flags: Nenhuma
+
+Formato: BR <deslocamento>
+
+Acção:
+PC ← PC + <deslocamento>, branch, salto relativo incondicional para
+<deslocamento> posições de memória à frente (ou atrás, se <deslocamento> for negativo) da posição actual. O valor de <deslocamento> tem que estar compreendido entre
+-32 e 31. Normalmente <deslocamento> é especificado com uma etiqueta.
+BR.cond
+Flags: Nenhuma
+
+Formato: BR.cond <deslocamento>
+
+Acção: salto relativo condicional baseado no valor de um dada condição. As versões disponíveis são:
+Condição
+Verdade
+Falso
+
+Transporte
+
+Sinal
+
+Excesso
+
+Zero
+
+Interrupção
+
+Positivo
+
+BR.C
+BR.NC
+
+BR.N
+BR.NN
+
+BR.O
+BR.NO
+
+BR.Z
+BR.NZ
+
+BR.I
+BR.NI
+
+BR.P
+BR.NP
+
+Caso a condição se verifique, a próxima instrução a ser executada será a do endereço
+PC + <deslocamento> (PC ← PC + <deslocamento>). Caso contrário, funciona como um
+NOP. O valor de <deslocamento> tem que estar compreendido entre -32 e 31. Normalmente <deslocamento> é especificado com uma etiqueta.
+
+11
+
+CALL
+Flags: Nenhuma
+
+Formato: CALL <endereço>
+
+Acção: M[SP] ← PC, SP ← SP - 1, PC ← <endereço>, chamada a subrotina com início em
+<endereço>. O endereço da instrução seguinte ao CALL é colocado na pilha e é feito uma
+salto para a subrotina. Normalmente <endereço> é especificado com uma etiqueta.
+CALL.cond
+Flags: Nenhuma
+
+Formato: CALL.cond <endereço>
+
+Acção: chamada condicional a uma subrotina baseado no valor de um dado bit de estado.
+As versões disponíveis são:
+Condição
+
+Transporte
+
+Sinal
+
+Excesso
+
+Zero
+
+Interrupção
+
+Positivo
+
+Verdade
+Falso
+
+CALL.C
+CALL.NC
+
+CALL.N
+CALL.NN
+
+CALL.O
+CALL.NO
+
+CALL.Z
+CALL.NZ
+
+CALL.I
+CALL.NI
+
+CALL.P
+CALL.NP
+
+Caso a condição se verifique, comporta-se como uma instrução CALL. Caso contrário, funciona como um NOP. Normalmente <endereço> é especificado com uma etiqueta.
+CLC
+Flags: C
+
+Formato: CLC
+Acção: clear C, coloca o bit de estado transporte a 0.
+CMC
+
+Flags: C
+
+Formato: CMC
+Acção: complementa o valor do bit de estado transporte.
+CMP
+
+Flags: ZCNO
+
+Formato: CMP op1, op2
+
+Acção: compara os operandos op1 e op2, actualizando os bits de estado. Efectua a mesma
+operação que SUB op1, op2 sem alterar nenhum dos operandos. É habitualmente seguida
+no programa por uma instrução BR.cond, JMP.cond ou CALL.cond
+COM
+Flags: ZN
+
+Formato: COM op
+Acção: op ← op, faz o complemento bit-a-bit de op.
+DEC
+
+Flags: ZCNO
+
+Formato: DEC op
+Acção: op ← op - 1, decrementa op em uma unidade.
+
+12
+
+DIV
+Flags: ZCNO
+
+Formato: DIV op1, op2
+
+Acção: executa a divisão inteira de op1 por op2, deixando o resultado em op1 e o resto em
+op2. Assume operandos sem sinal. O bit de estado O fica a 1 no caso de divisão por 0. Os
+bit de estado C e N ficam sempre a 0. Uma vez que ambos os operandos são usados para
+guardar o resultado, nenhum deles pode estar no modo imediato. Pela mesma razão, os
+dois operandos não devem ser o mesmo pois parte do resultado será perdido.
+DSI
+Flags: E
+
+Formato: DSI
+Acção: disable interrupts, coloca o bit de estado E a 0, inibindo assim as interrupções.
+ENI
+
+Flags: E
+
+Formato: ENI
+
+Acção: enable interrupts, coloca o bit de estado E a 1, permitindo assim as interrupções.
+INC
+Flags: ZCNO
+
+Formato: INC op
+Acção: op ← op + 1, incrementa op em uma unidade.
+INT
+
+Flags: ZCNOE
+
+Formato: INT const
+
+Acção: M[SP] ← RE, SP ← SP - 1, M[SP] ← PC, SP ← SP - 1, RE ← 0, PC ← M[FE00h+const],
+gera uma interrupção com o vector const. Este vector tem que estar compreendido entre
+0 e 255. Esta interrupção ocorre sempre, independentemente do valor do bit de estado E,
+enable interrupts.
+JMP
+Flags: Nenhuma
+
+Formato: JMP <endereço>
+
+Acção: PC ← <endereço>, jump, salto absoluto incondicional para a posição de memória com
+o valor <endereço>. Normalmente <endereço> é especificado com uma etiqueta.
+JMP.cond
+Flags: Nenhuma
+
+Formato: JMP.cond <endereço>
+
+Acção: salto absoluto condicional baseado no valor de um dada condição. As versões disponíveis são:
+Condição
+Verdade
+Falso
+
+Transporte
+
+Sinal
+
+Excesso
+
+Zero
+
+Interrupção
+
+Positivo
+
+JMP.C
+JMP.NC
+
+JMP.N
+JMP.NN
+
+JMP.O
+JMP.NO
+
+JMP.Z
+JMP.NZ
+
+JMP.I
+JMP.NI
+
+JMP.P
+JMP.NP
+
+13
+
+Caso a condição se verifique, a próxima instrução a ser executada será a apontada por
+<endereço> (PC ← <endereço>). Caso contrário, funciona como um NOP. Normalmente
+<endereço> é especificado com uma etiqueta.
+MOV
+Flags: Nenhuma
+
+Formato: MOV op1, op2
+Acção: op1 ← op2, copia o conteúdo de op2 para op1.
+
+Para além dos modos de endereçamento comuns a todas as instruções (conforme Secção 3.4),
+esta instrução permite ler e escrever no registo apontador da pilha SP, mas apenas em conjunção com o modo de endereçamento por registo: MOV SP, Rx e MOV Rx, SP. A primeira
+destas instruções será necessária no início de todos os programas que utilizem a pilha.
+MUL
+Flags: ZCNO
+
+Formato: MUL op1, op2
+
+Acção: op1|op2 ← op1 × op2, multiplica op1 por op2, assumindo-os como números sem sinal. Como o resultado necessita de 32 bits são usados os dois operandos para o guardar:
+op1 fica com o 16 mais significativos e op2 com os 16 menos significativos. O bit de estado
+Z é actualizado de acordo com o resultado, os restantes ficam a 0. Uma vez que ambos os
+operandos são usados para guardar o resultado, nenhum deles pode estar no modo imediato. Pela mesma razão, os dois operandos não devem ser o mesmo pois parte do resultado
+será perdido.
+MVBH
+Flags: Nenhuma
+
+Formato: MVBH op1, op2
+
+Acção: op1 ← (op1 ∧ 00FFh) ∨ (op2 ∧ FF00h), copia o octecto de maior peso de op2 para o
+octecto de maior peso de op1.
+MVBL
+Flags: Nenhuma
+
+Formato: MVBL op1, op2
+
+Acção: op1 ← (op1 ∧ FF00h) ∨ (op2 ∧ 00FFh), copia o octecto de menor peso de op2 para o
+octecto de menor peso de op1.
+NEG
+Flags: ZCNO
+
+Formato: NEG op
+Acção: op ← -op, troca o sinal (complemento para 2) do operando op.
+NOP
+
+Flags: Nenhuma
+
+Formato: NOP
+Acção: no operation, não altera nada.
+
+14
+
+OR
+Flags: ZN
+
+Formato: OR op1, op2
+Acção: op1 ← op1 ∨ op2, faz o OR lógico bit-a-bit dos dois operandos.
+POP
+
+Flags: Nenhuma
+
+Formato: POP op
+
+Acção: SP ← SP + 1, op ← M[SP], copia o valor do topo da pilha para op e reduz o tamanho
+desta.
+PUSH
+Flags: Nenhuma
+
+Formato: PUSH op
+Acção: M[SP] ← op, SP ← SP - 1, coloca op no topo da pilha.
+RET
+
+Flags: Nenhuma
+
+Formato: RET
+
+Acção: SP ← SP + 1, PC ← M[SP], retorna de uma subrotina. O endereço de retorno é obtido
+do topo da pilha.
+RETN
+Flags: Nenhuma
+
+Formato: RETN const
+
+Acção: SP ← SP + 1, PC ← M[SP], SP ← SP + const, retorna de uma subrotina libertando
+const posições do topo da pilha. Esta instrução permite retornar de uma subrotina retirando automaticamente parâmetros que tenham sido passados para essa subrotina através
+da pilha. O valor de const tem que estar compreendido entre 0 e 1023 (10 bits).
+ROL
+Flags: ZCN
+
+Formato: ROL op, const
+
+Acção: rotate left, faz a rotação à esquerda dos bits de op o número de vezes indicado por
+const. Mesma operação que o deslocamento simples,SHL, mas os bits da esquerda não se
+perdem, sendo colocados nas posições mais à direita de op. O valor de const tem que estar
+compreendido entre 1 e 16.
+ROLC
+Flags: ZCN
+
+Formato: ROLC op, const
+
+Acção: rotate left with carry, mesma operação que ROL, mas envolvendo o bit de estado transporte: o valor de C é colocado na posição mais à direita de op e o bit mais à esquerda de op
+é colocado em C. O valor de const tem que estar compreendido entre 1 e 16.
+
+15
+
+ROR
+Flags: ZCN
+
+Formato: ROR op, const
+
+Acção: rotate right, faz a rotação à direita dos bits de op o número de vezes indicado por
+const. Mesma operação que o deslocamento simples, SHR, mas os bits da direita não se
+perdem, sendo colocados nas posições mais à esquerda de op. O valor de const tem que
+estar compreendido entre 1 e 16.
+RORC
+Flags: ZCN
+
+Formato: RORC op, const
+
+Acção: rotate right with carry, mesma operação que ROR, mas envolvendo o bit de estado
+transporte: o valor de C é colocado na posição mais à esquerda de op e o bit mais à direita
+de op é colocado em C. O valor de const tem que estar compreendido entre 1 e 16.
+RTI
+Flags: EZCNO
+
+Formato: RTI
+
+Acção: SP ← SP + 1, PC ← M[SP], SP ← SP + 1, RE ← M[SP], return from interrupt, retorna
+de uma rotina de serviço a uma interrupção. O endereço de retorno e os bits de estado são
+obtidos do topo da pilha, por esta ordem.
+SHL
+Flags: ZCN
+
+Formato: SHL op, const
+
+Acção: shift left, deslocamento à esquerda dos bits de op o número de vezes indicado por
+const. Os bits mais à esquerda de op são perdidos e é colocado 0 nas posições mais à direita. O bit de estado transporte fica com o valor do último bit perdido. O valor de const tem
+que estar compreendido entre 1 e 16.
+SHLA
+Flags: ZCNO
+
+Formato: SHLA op, const
+
+Acção: shift left arithmetic, mesma operação que SHL, mas actualizando os bits de estado
+correspondentes às operações aritméticas. Permite realizar de forma expedita uma multiplicação de op por 2n . O valor de const tem que estar compreendido entre 1 e 16.
+SHR
+Flags: ZCN
+
+Formato: SHR op, const
+
+Acção: shift right, deslocamento à direita dos bits de op o número de vezes indicado por
+const. Os bits mais à direita de op são perdidos e são colocados 0 nas posições mais à esquerda. O bit de estado transporte fica com o valor do último bit perdido. O valor de const
+tem que estar compreendido entre 1 e 16.
+
+16
+
+SHRA
+Flags: ZCNO
+
+Formato: SHRA op, const
+
+Acção: shift right arithmetic, deslocamento à direita dos bits de op, mas mantendo o bit de
+sinal. Os bits mais à direita de op são perdidos, mas os bits mais à esquerda mantêm o valor
+anterior. O bit de estado transporte fica com o valor do último bit perdido. Permite realizar
+de forma expedita uma divisão de op por 2n . const entre 1 e 16.
+
+STC
+Flags: C
+
+Formato: STC
+Acção: set C, coloca o bit de estado transporte a 1.
+
+SUB
+Flags: ZCNO
+
+Formato: SUB op1, op2
+Acção: op1 ← op1 - op2, subtrai a op1 o valor de op2.
+
+SUBB
+Flags: ZCNO
+
+Formato: SUBB op1, op2
+
+Acção: op1 ← op1 - op2 - C, igual a SUB excepto que subtrai mais um caso o bit de estado
+transporte esteja a 0.
+
+TEST
+Flags: ZN
+
+Formato: TEST op1, op2
+
+Acção: testa o bits dos operandos op1 e op2, actualizando os bits de estado. Efectua a mesma
+operação que AND op1, op2 sem alterar nenhum dos operandos.
+
+XCH
+Flags: Nenhuma
+
+Formato: XCH op1, op2
+
+Acção: exchange op1/op2, op1 ← op2, op2 ← op1, troca os valores de op1 e op2.
+
+XOR
+Flags: ZN
+
+Formato: XOR op1, op2
+
+Acção: op1 ← op1 ⊕ op2. Faz a operação lógica EXCLUSIVE - OR bit-a-bit dos dois operandos.
+
+17
+
+4
+4.1
+
+Simulador
+Evocação
+
+O modo de evocação do simulador p3sim é simplesmente:
+$ p3sim [<nome>.exe]
+em que <nome>.exe é o executável gerado pelo assembler p3as que se pretende simular. Os
+parêntesis rectos indicam que o ficheiro <nome>.exe é opcional, o programa a simular pode
+também ser carregado através da interface do simulador.
+Para sair do simulador deve-se escolher a opção Sai do menu Ficheiro.
+
+4.2
+
+Ambiente
+
+A evocação do simulador lança uma janela como a representada na Figura 1.
+
+Figura 1: Interface do simulador.
+Nesta janela existem 6 secções diferentes que se explicam em seguida, no sentido de cima
+para baixo na janela.
+
+18
+
+4.2.1
+
+Menus
+
+Na parte superior da janela existem 5 menus que se abrem quando seleccionados: Ficheiro,
+Definições, Comandos, Depuração e Ver. Qualquer destes menus pode ser mantido aberto seleccionando a primeira linha (a tracejado).
+As opções de cada menu são as seguintes:
+• Ficheiro:
+as opções deste menu estão relacionadas com a manipulação de ficheiros, quer para
+leitura quer para escrita.
+Carrega Programa permite carregar para o simulador um novo programa gerado pelo
+p3as.
+Escreve Memória escreve para um ficheiro o conteúdo actual da memória. O ficheiro
+gerado é texto com uma posição de memória por cada linha, com endereço e conteúdo dessa posição. Todos estes valores são de 16 bits e estão em hexadecimal.
+Carrega Memória carrega directamente algumas posições de memória. O ficheiro de
+entrada deve ser em texto, com o mesmo formato gerado pelo comando Escreve
+Memória, uma posição de memória por cada linha, com endereço e conteúdo dessa
+posição. Podem especificar-se o número de posições que se quiser e a sua ordem
+não é importante. Todos estes valores têm que estar em hexadecimal e ser de 16
+bits.
+Carrega ROM de Controlo permite alterar o conteúdo da ROM da unidade de controlo. Esta opção é útil para modificar o micro-programa das instruções assembly.
+O ficheiro de entrada deve ser texto, com uma posição de memória por linha. Em
+cada linha deve constar o endereço da posição a alterar (a ROM tem um barramento de endereços de 9 bits, portanto, 512 posições de memória) e o novo valor
+a colocar nessa posição (cada posição desta ROM tem 32 bits), tudo em hexadecimal.
+Carrega ROM A permite alterar o conteúdo da ROM que faz o mapeamento de instruções. A ROM A é endereçada com o campo do código da instrução assembly presente no registo de instrução, colocando à saída o endereço de início da
+micro-rotina que realiza esta instrução na ROM de Controlo. Esta opção é útil
+para acrescentar novas instruções ou modificar o micro-programa de instruções
+já existentes. O ficheiro de entrada deve ser texto, com uma posição de memória
+por linha. Em cada linha deve constar o endereço da posição a alterar (esta ROM
+tem 64 posições) e o novo valor a colocar nessa posição (cada posição desta ROM
+tem 9 bits), tudo em hexadecimal.
+Carrega ROM B permite alterar o conteúdo da ROM que faz o mapeamento do modo
+de endereçamento. A ROM B é endereçada com o campo do modo de endereçamento da instrução assembly presente no registo de instrução, de acordo com a
+Figura 12.8 do livro, colocando à saída o endereço da sub-micro-rotina na ROM
+de Controlo que lê/escreve os operandos de acordo com esse modo. Esta opção
+é útil para acrescentar ou modificar os modos de endereçamento existentes. O
+ficheiro de entrada deve ser texto, com uma posição de memória por linha. Em
+
+19
+
+cada linha deve constar o endereço da posição a alterar (esta ROM tem 16 posições) e o novo valor a colocar nessa posição (cada posição desta ROM tem 9 bits),
+tudo em hexadecimal.
+Sai saída do programa, perdendo-se toda a informação sobre o contexto da simulação.
+• Definições:
+menu com opções de configuração do próprio simulador.
+Define IVAD define quais os vectores de interrupção associado a cada um dos botões
+de interrupção. Permite ainda desabilitar individualmente cada botão de interrupção. As alterações só têm efeito após se pressionar em Guarda.
+Zona de Memória permite alterar qual a gama de posições de memória visualizadas
+na secção da memória (ver Secção 4.2.4).
+Zona de Programa permite alterar o número de posições de memória visualizadas na
+secção de programa desassemblado (ver Secção 4.2.5).
+• Comandos:
+os comandos deste menu são os mesmos que os descritos na Secção 4.2.6. A razão
+da duplicação é que por vezes pode ser útil ter este menu fixo numa janela pequena e
+independente.
+• Depuração:
+neste menu estão um conjunto de opções que facilitam a depuração de programas.
+Pontos de Paragem esta opção lista os pontos de paragem (ou breakpoints, endereços
+onde a execução do programa pára) que estão definidos. Para apagar todos os
+pontos de paragem basta clicar em Apaga Todos. Para apagar um determinado
+ponto de paragem deve-se clicar sobre ele (quer nesta janela quer na do programa)
+e depois clicar em Apaga. Para definir um novo ponto de paragem numa dada
+linha do código, deve-se seleccionar essa linha na janela do programa e depois
+clicar em Adiciona.
+Escreve Registo permite alterar directamente o conteúdo dos registos. O valor deve
+estar em hexadecimal.
+Escreve Memória permite alterar directamente uma posição de memória. Os valores
+do endereço e conteúdo devem estar em hexadecimal. Importante: se se alterar
+o conteúdo de uma posição correspondente ao código, a janela de programa não
+será actualizada (não há uma nova desassemblagem do programa), e, portanto,
+haverá alguma inconsistência.
+• Ver:
+este menu tem opções para activar/desactivar janelas ou informação extra no simulador.
+Ver Controlo estende ou reduz a interface do simulador, permitindo visualizar informação interna da unidade de controlo. Este modo de funcionamento é descrito
+na Secção 4.4.
+
+20
+
+Ver ROMs cria ou elimina uma janela que mostra o conteúdo de cada posição de memória das três ROMs da unidade de controlo: ROM de mapeamento A, ROM de
+mapeamento B e ROM de Controlo.
+Janela Texto cria ou elimina a janela de entrada e saída de texto. Como descrito na
+Secção 4.6.1, as entradas/saídas para esta janela estão mapeadas nos endereços
+FFFCh a FFFFh. Portanto, leituras e escrita para esta gama de endereços controlam este dispositivo de acordo com o descrito nessa secção.
+Janela Placa cria ou elimina a janela de entrada e saída que emula a placa DIO5 da
+Digilent, com:
+–
+–
+–
+–
+–
+
+um display LCD, com 16 colunas e duas linhas;
+4 displays de 7 segmentos;
+16 LEDs individuais;
+8 interruptores;
+15 botões de pressão (na placa DIO5, existe um 16o botão que não está a ser
+utilizado com o P3).
+
+Os endereços de controlo para estes dispositivos estão descritos na Secção 4.6.2.
+4.2.2
+
+Contadores de Instrução e Ciclos de Relógio
+
+Por baixo dos menus, existe uma secção que mostra o número de instruções e o número de
+ciclos de relógio que decorreram desde que se efectuou o último reset ao processador.
+4.2.3
+
+Registos
+
+A secção imediatamente abaixo à esquerda indica o valor actual de cada registo da unidade
+de processamento. São apresentados os registos de uso genérico (R0 a R7), o contador de
+programa PC (program counter) e o apontador para o topo da pilha SP (stack pointer). Todos
+os valores estão em hexadecimal, com 16 bits.
+Estão também indicados os bits de estado (flags) do sistema (cujo valor é, naturalmente,
+0 ou 1): O, excesso ou overflow; C, transporte ou carry; N, sinal ou negative; Z, zero; e E, enable
+interrupt.
+4.2.4
+
+Conteúdo da Memória
+
+Nesta secção é mostrado o conteúdo das diferentes posições de memória. Por razões de
+eficiência, não é possível ter acesso a todas as posições de memória simultaneamente. Assim,
+optou-se por dar acesso a duas zonas diferentes da memória, o que se traduz na divisória
+ao meio desta secção. Inicialmente, a parte de cima aponta para a zona de memória onde,
+tipicamente, estão os dados e a parte de baixo para a zona da pilha e tabela de interrupção,
+com os valores:
+parte de cima:
+parte de baixo:
+
+início
+8000h
+FD00h
+
+fim
+81FFh
+FEFFh
+
+21
+
+número de posições
+512
+512
+
+Pelo menu Definições, é possível definir o endereço de início e o número de posições de
+memória a visualizar em cada uma destas zonas. Um aumento do número de posições a
+visualizar torna a execução do simulador mais lenta.
+Em cada linha são apresentadas 8 posições de memória consecutivas. O endereço da
+primeira destas posições é o primeiro número da linha. Os seguintes 8 valores são o conteúdo dessas posições. Mais uma vez, todos os valores estão em hexadecimal e são de 16 bits.
+No final de cada linha estão os 8 caracteres com os códigos ASCII das posições de memória
+dessa linha. Caso o valor não corresponda ao código ASCII de um caracter alfa-numérico, é
+usado o caracter ’.’.
+4.2.5
+
+Programa Desassemblado
+
+Na secção em baixo à esquerda é apresentado o programa desassemblado. Sempre que um
+novo programa é carregado para o simulador, é feita a sua desassemblagem. Este processo
+consiste em interpretar os valores binários do ficheiro de entrada e imprimir a instrução
+assembly que lhes corresponde. Notar que não se tem acesso às etiquetas usadas no ficheiro
+assembly original, logo todos os valores são numéricos.
+A barra escura indica a próxima instrução a ser executada. No entanto, esta pode ser
+colocada em qualquer instrução, clicando em cima dela. Isto permite que seja aí colocado um
+ponto de paragem, através da opção Pontos de Paragem do menu Depuração. As instruções
+com pontos de paragem são antecedidas no código com o sinal ’»’. Para se remover um
+ponto de paragem pode-se clicar sobre essa instrução e fazer Apaga na mesma opção do
+menu Depuração.
+Quando o programa se está a executar e pára num dado ponto de paragem, tal é assinalado pela cor vermelha da barra de selecção.
+4.2.6
+
+Comandos de Execução e Interrupção
+
+No canto inferior direito estão os comandos que controlam a execução do programa:
+Instrução – executa uma única instrução assembly.
+Corre – reinicia o programa e executa-o indefinidamente ou até parar num ponto de paragem. O utilizador pode parar o programa em qualquer altura clicando no botão Parar.
+Reinícia – faz reset ao processador, colocando todos os registos a 0.
+Continua – continua a execução do programa a partir da instrução corrente. Este botão
+transforma-se num botão Parar permitindo ao utilizador parar a execução do programa
+em qualquer altura.
+Refresca – actualiza a janela do programa sem parar a sua execução, mostrando o conteúdo
+da memória e dos registos na altura em que se clicou neste botão.
+
+22
+
+4.3
+
+Depuração
+
+Tipicamente, as ferramentas disponíveis para ajudar na depuração de um programa em assembly são muito limitadas. A funcionalidade destas ferramentas é replicada no simulador
+p3sim.
+Para testar a funcionalidade de uma secção do código, começa-se por colocar um ponto
+de paragem (como indicado atrás) no início dessa secção e dá-se o comando Corre. Após a
+sua paragem, executa-se o programa passo-a-passo, verificando se o fluxo do programa é
+o previsto e se depois de cada instrução os registos, bits de estado e posições de memória
+foram alterados de acordo com o esperado. Caso tal não aconteça, é possível que se tenha
+que repetir este procedimento para se tentar perceber porque que é que o comportamento
+do programa é diferente do esperado.
+Por vezes é desejável criar artificialmente as condições que se quer testar. Para isso
+podem-se carregar os registos/posições de memória com os valores necessários para o teste
+que se pretende.
+Basicamente, são estes os procedimentos a seguir. Portanto, a não ser que se tenha uma
+intuição muito apurada para depuração de programas assembly que dê uma ideia muito boa
+de onde o erro poderá estar a surgir, é vivamente recomendado que o teste dos programas
+seja feito módulo a módulo. Só depois de os módulos terem sido testados separadamente
+sob condições típicas e se ter bastante confiança no seu correcto funcionamento é que se deve
+começar a juntá-los e a testá-los em conjunto.
+
+4.4
+
+Unidade de Controlo
+
+O simulador p3sim faz simulação ao nível do micro-código. Para se ter acesso à informação
+interna da unidade de controlo (portanto informação que não está disponível a nível da
+programação assembly) deve-se seleccionar a opção Ver controlo do menu Ver. Após esta
+selecção a interface é estendida, ficando como mostra a Figura 2.
+Em particular, temos mais uma secção na janela da interface com os registos internos da
+unidade de controlo e mais um botão (Clock) na secção de comandos de execução.
+4.4.1
+
+Registos Internos à Unidade de Controlo
+
+A secção que aparece entre os registos e o conteúdo da memória mostra os valores dos registos internos à unidade de controlo. São registos que não são vistos pelo programador, mas
+que são usados pelos micro-programas das instruções do processador.
+Os registos apresentados são:
+R8-R13 – conjunto de 6 registos de 16 bits de uso genérico para os micro-programas. Destes,
+os 3 últimos têm significados especiais pela maneira como são usados na estrutura dos
+micro-programas do processador:
+R11 : também chamado de SD (source data), pois na fase de operand fetch da instrução é
+carregado com o valor do operando origem (source).
+R12 : também chamado de EA (effective address), pois na fase de operand fetch da instrução é carregado com o endereço de memória onde eventualmente se vai buscar
+um dos operandos (aquele que não é usado em modo registo) e, na fase de writeback, onde se guarda o resultado caso o operando destino esteja em memória.
+23
+
+Figura 2: Interface do simulador estendida com a informação de controlo.
+R13 : também chamado de RD (result data), pois na fase de operand fetch da instrução é
+carregado com o valor do operando destino e fica com o valor do resultado, a ser
+usado na fase de write-back.
+R14 – de facto, este é o registo apontador da pilha, SP, ou seja, o registo SP está no banco de
+registos e corresponde ao R14.
+R15 – de igual forma, este é o registo contador de programa, PC.
+CAR – control address register, contém o endereço da ROM de Controlo com a micro-instrução
+a executar no próximo ciclo de relógio. Registo de 9 bits.
+SBR – subroutine branch register, guarda o endereço de retorno quando se executa uma chamada a uma sub-rotina dentro de um micro-programa. Registo de 9 bits.
+uI – micro-instruction, micro-instrução a ser executada no próximo ciclo de relógio. A microinstrução tem 32 bits.
+IR – instruction register, contém a instrução assembly que está a ser executada. Registo de 16
+bits.
+INT – interrupt, indica se existe ou não uma interrupção pendente, tomando os valores 1 ou
+0 respectivamente.
+
+24
+
+z, c – bits de estado zero e transporte à saída da ULA, invisíveis ao programador e, portanto,
+apenas úteis na micro-programação. São actualizados todos os ciclos de relógio, ao
+contrário dos bits de estado em assembly cuja actualização ou não é controlada pelo
+micro-programa. Tomam os valores 0 ou 1.
+4.4.2
+
+Botão Clock
+
+Este botão extra permite executar apenas um ciclo de relógio de cada vez. A sua utilidade é
+permitir seguir o funcionamento de um micro-programa, micro-instrução a micro-instrução.
+Para acabar a execução da instrução assembly actual pode usar-se o botão Instrução, que executa os ciclos de relógio necessários para chegar novamente ao início do ciclo de fetch.
+Notar que o PC pode ficar momentaneamente numa zona inválida quando se carrega
+no botão Clock, o que é indicado pela mensagem “A posição apontada pelo PC não contém uma
+instrução válida”. Isto deve-se a que, nas instruções que ocupam duas posições de memória,
+o PC possa ficar momentaneamente a apontar para a segunda posição de memória dessa
+instrução, que não corresponde a uma instrução assembly. Uma vez lida essa posição de
+memória, o PC é de novo incrementado, voltando a uma posição válida.
+
+4.5
+
+Micro-Programação
+
+O simulador p3sim está desenvolvido de forma a permitir modificar o funcionamento das
+instruções assembly do processador e mesmo introduzir novas instruções. Este processo envolve modificar algumas posições de memória das ROMs do processador: a ROM de Controlo e as ROMs de mapeamento, A e B. O conteúdo destas ROMs é apresentado no Anexo B.
+A alteração de uma instrução pode, em princípio, ser feita modificando certas posições
+da ROM de Controlo. Para isso, tem que se analisar o micro-programa da instrução assembly
+a alterar e identificar quais as posições do micro-programa que devem ser alteradas. Basta
+então criar um ficheiro de texto com uma linha por cada micro-instrução a alterar. Em cada
+linha deve constar o endereço da ROM de Controlo a alterar seguido do valor desejado
+para essa posição, todos os valores em hexadecimal. Este ficheiro deve depois ser carregado
+usando o opção Carrega ROM de Controlo do menu Ficheiro. O formato usado para as microinstruções está apresentado no Anexo B.
+Para adicionar uma instrução, é necessário:
+1. arranjar um código de instrução (opcode) único.
+2. desenvolver o micro-programa para essa instrução.
+3. arranjar um espaço livre na ROM de Controlo onde esse micro-programa vai ser colocado. No caso do p3sim, as posições livres são a partir do endereço 112h, inclusivé.
+4. carregar o micro-programa, conforme descrito no parágrafo anterior.
+5. modificar a ROM de mapeamento A, colocando no endereço correspondente ao código
+da instrução nova o endereço da ROM de controlo onde se colocou o micro-programa,
+usando o mesmo procedimento que o usado para a alteração da ROM de Controlo.
+O conteúdo das ROMs do processador pode ser confirmado seleccionando a opção Ver
+ROMs do menu Ver.
+25
+
+Figura 3: Janela de interface de texto, com 24 linhas e 80 colunas.
+A depuração do micro-programa pode ser feito seguindo passo-a-passo (que a este nível
+é equivalente a ciclo de relógio-a-ciclo de relógio) a sua execução com o botão Clock e verificando o fluxo e as alterações que o micro-programa provoca nos diferentes registos.
+
+4.6
+
+Dispositivos de Entrada e Saída
+
+O simulador disponibiliza um conjunto de dispositivos de entrada e saída através de duas
+janelas que podem ser abertas através do menu Ver. Cada um destes dispositivos poderá ser
+acedido por um ou mais portos. Sendo o espaço de endereçamento de IO mapeado no espaço
+de endereçamento de memória, a cada porto corresponderá um endereço de memória. Estes
+portos podem ser de leitura, de escrita ou de leitura e escrita. Escritas para portos só de
+leitura são ignoradas. Leituras de portos de escrita retornam todos os bits a 1, ou seja, FFFFh.
+4.6.1
+
+Janela Texto
+
+Esta janela, apresentada na Figura 3, permite uma interface a nível de texto, permitindo ler
+caracteres do teclado e escrever caracteres para o monitor. Para aceder a este dispositivo
+estão reservados 4 portos:
+porto de leitura, endereço FFFFh: uma leitura deste porto retorna o código ASCII do caracter correspondente à última tecla premida sobre a janela de texto. Portanto, no caso
+de se premir uma tecla antes da leitura da tecla anterior faz com que esta se perca. É
+possível testar se existe alguma tecla para ler através do porto de estado. Uma leitura
+deste porto sem que tenha havido uma tecla premida retorna o valor 0.
+porto de escrita, endereço FFFEh: porto que permite escrever um dado caracter na janela
+de texto. O caracter com o código ASCII igual ao valor escrito para este porto é ecoado
+na janela. Esta janela mantém internamente um cursor onde este caracter é escrito.
+
+26
+
+Figura 4: Janela de interface .
+Sempre que se faz uma escrita, este cursor avança. É possível posicionar-se o cursor
+em qualquer ponto da janela através do porto de controlo.
+porto de estado, endereço FFFDh: porto que permite testar se existe ou não algum caracter
+para ler na janela de texto. Caso não haja, uma leitura deste porto retorna 0. Caso
+entretanto tenha sido premida uma tecla, este porto retorna 1. Assim que esta tecla for
+lida através do porto de leitura, este porto passa novamente a retornar 0.
+porto de controlo, endereço FFFCh: porto que permite posicionar o cursor na janela de
+texto, indicando onde será escrito o próximo caracter. Para tornar possível este posicionamento, tem que ser feita a sua inicialização, conseguida através da escrita do valor
+FFFFh para este porto1 . Uma vez inicializado, o cursor pode ser posicionado numa
+dada linha e coluna escrevendo para este porto um valor em que os 8 bits mais significativos indicam a linha (entre 0 e 23) e os 8 menos significativos a coluna (entre 1 e
+80):
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Linha
+4.6.2
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Coluna
+
+Janela Placa
+
+A Figura 4 apresenta a janela de interface que emula a placa DIO5 da Digilent, utilizada nas
+aulas práticas da disciplina de Arquitectura de Computadores da Licenciatura em Engenharia Informática e de Computadores do IST. Esta disponibiliza os dispositivos que a seguir se
+indica:
+• 8 interruptores, endereço FFF9h: uma leitura deste endereço permite ler em simultâneo o estado do conjunto dos 8 interruptores. A cada interruptor corresponde um bit,
+correspondendo ao interruptor da direita o bit menos significativo e ao da esquerda o
+oitavo bit (os oito bits mais significativos vêm sempre a 0). Um interruptor para baixo
+coloca o bit respectivo a 0 e para cima a 1.
+1
+
+Um efeito secundário desta inicialização é limpar todo o conteúdo da janela.
+
+27
+
+• LEDs, endereço FFF8h: conjunto de 16 LEDs cujo estado individual, ligado ou desligado, é definido por uma escrita para este porto. A cada LED correspondem 1 bit da
+palavra de dados, sendo o LED da direita controlado pelo bit menos significativo e os
+restantes LEDs por cada um dos restantes bits, por ordem.
+• display de 7 segmentos, endereços FFF0h, FFF1h, FFF2h e FFF3h: cada um destes
+portos controla, da direita para a esquerda, um conjunto de 7 LEDs que formam um
+display. Os quatro bits menos significativos do valor escrito no porto determina o caracter hexadecimal (0 a F) que aparece no display respectivo.
+• display LCD, endereços FFF4h e FFF5h: display com 16 colunas e 2 linhas de texto.
+Uma escrita para o porto FFF5h faz ecoar o caracter em código ASCII estendido correspondente aos 8 bits menos significativos do valor escrito. O porto FFF4h é um
+porto de controlo, em que os diferentes bits activos desencadeiam diferentes operações:
+Bit Acção
+15
+liga ou desliga o display LCD;
+limpa o display LCD;
+5
+4
+posiciona na linha 0 ou 1 o cursor (que indica a próxima posição a ser escrita);
+3 a 0 posiciona o cursor na coluna especificada;
+A escrita de um caracter não altera a posição do cursor, logo entre cada escrita é necessário actualizar a posição deste.
+• 15 botões de pressão: estes não estão mapeados em memória, clicando num destes
+botões é gerada uma interrupção no programa com o correspondente vector de interrupção. É possível desabilitar estes botões, seleccionando a opção Define IVAD no
+menu Definições e clicar na respectiva caixa de selecção. É também aqui que se pode
+alterar o vector associado a cada um destes 15 botões de interrupção, que, por omissão,
+corresponde ao índice do botão.
+4.6.3
+
+Temporizador
+
+O simulador p3sim disponibiliza, ainda em conformidade com a placa DIO5, um dispositivo temporizador que permite definir intervalos de tempo real. O temporizador é controlado por dois portos:
+• unidades de contagem, endereço FFF6h: uma escrita para este endereço define o número de unidades de contagem, cada com a duração de 100ms. Por exemplo, para
+se conseguir um intervalo de 1s, deve ser escrito para este endereço o valor 10. Uma
+leitura deste endereço permite obter o valor actual de contagem;
+• porto de controlo, endereço FFF7h: este porto permite dar início ou parar uma contagem por escrita, respectivamente, de um 1 ou um 0 no bit menos significativo (os
+restantes bits são ignorados). Uma leitura deste endereço indica, no bit menos significativo, o estado do temporizador, em contagem ou parado.
+A utilização normal deste dispositivo consiste em escrever no porto FFF6h o número de períodos de 100ms correspondente ao intervalo de tempo pretendido, seguido de uma escrita
+do valor 1 no porto FFF7h. Deverá ser associada ao vector de interrupção 15 a rotina que
+deverá tratar a indicação do final deste intervalo.
+28
+
+4.6.4
+
+Máscara de Interrupções
+
+Um último porto de saída, no endereço FFFAh, está associado à máscara de interrupções.
+Esta máscara permite habilitar ou desabilitar cada um dos 16 primeiros vectores de interrupção individualmente, definido pela escrita de um padrão de bits a 1 e a 0, respectivamente.
+Por exemplo, para apenas se habilitar as interrupções vindas do temporizador, deverá ser escrito para este endereço o valor 8000h. Uma leitura deste endereço indica a situação actual
+da máscara.
+A Tabela 4.6.4 resume o conjunto de dispositivos de entrada/saída do simulador p3sim.
+
+29
+
+Endereço
+FFF0h
+
+Dispositivo
+Display 7 segmentos 0
+
+FFF1h
+
+Display 7 segmentos 1
+
+FFF2h
+
+Display 7 segmentos 2
+
+FFF3h
+
+Display 7 segmentos 3
+
+FFF4h
+
+LCD
+
+FFF5h
+
+LCD
+
+FFF6h
+
+Temporizador
+
+FFF7h
+
+Temporizador
+
+FFF8h
+
+LEDs
+
+FFF9h
+
+Interruptores
+
+FFFAh
+
+Máscara de interrupções
+
+FFFCh
+
+Janela de texto
+
+FFFDh
+
+Janela de texto
+
+FFFEh
+
+Janela de texto
+
+FFFFh
+
+Janela de texto
+
+Descrição
+Permite escrever no display de
+7 segmentos mais à direita.
+Só são considerados os 4 bits
+menos significativos escritos
+no endereço.
+Idem para o display à esquerda do anterior.
+Idem para o display à esquerda do anterior.
+Idem para o display à esquerda do anterior.
+Permite enviar sinais de controlo para o LCD.
+Permite escrever um caracter
+no LCD cujo código ASCII estendido foi escrito no endereço.
+Valor do contador associado
+ao temporizador.
+Arranca ou pára o temporizador.
+Permite acender os LEDs correspondentes ao valor em binário que se escreve no endereço. O LED da direita corresponde ao bit menos significativo.
+Permite ler, nos 8 bits menos significativos, o valor definido pela posição dos interruptores. O interruptor da direita corresponde ao bit menos significativo.
+Permite definir os vectores de
+interrupção habilitados, um
+por cada bit da máscara.
+Permite colocar o cursor
+numa dada posição da janela.
+Permite testar se houve alguma tecla premida.
+Permite escrever um caracter
+na janela.
+Permite ler a última tecla premida.
+
+Tabela 2: Resumo dos dispositivos de entrada e saída.
+30
+
+Acção
+Escrita
+
+Escrita
+Escrita
+Escrita
+Escrita
+Escrita
+
+Leitura/Escrita
+Leitura/Escrita
+Escrita
+
+Leitura
+
+Leitura/Escrita
+
+Escrita
+Leitura
+Escrita
+Leitura
+
+A
+
+Formatos das Instruções Assembly
+
+Instruções de 0 operandos
+NOP, ENI, DSI, STC, CLC, CMC, RET e RTI
+16 bits
+6 bits
+
+Opcode
+
+Instruções de 0 operandos com constante
+RETN e INT
+16 bits
+6 bits
+
+10 bits
+
+Opcode
+
+Constante
+
+Instruções de 1 operando
+NEG, INC, DEC, COM, PUSH e POP
+16 bits
+6 bits
+
+2 bits
+
+4 bits
+
+Opcode
+
+M
+
+Reg_modo
+
+W
+
+Instruções de 1 operando com constante
+SHR, SHL, SHRA, SHLA, ROR, ROL, RORC, ROLC
+
+6 bits
+
+16 bits
+4 bits
+
+2 bits
+
+4 bits
+
+Opcode
+
+# posições
+
+M
+
+Reg_modo
+
+W
+
+31
+
+Instruções de 2 operandos
+CMP, ADD, ADDC, SUB, SUBB, MUL, DIV, TEST, AND, OR, XOR, MOV, MVBL, MVBH e XCH
+
+6 bits
+
+1 bit
+
+16 bits
+3 bits
+
+S
+
+Reg_reg
+
+2 bits
+
+4 bits
+
+M
+
+Reg_modo
+
+6 bits
+
+2 bits
+
+4 bits
+
+Opcode
+
+M
+
+Reg_modo
+
+Opcode
+
+W
+
+Instruções de salto absoluto incondicional
+JMP, CALL
+16 bits
+
+W
+
+Instruções de salto absoluto condicional
+JMP.cond, CALL.cond
+
+6 bits
+
+16 bits
+4 bits
+
+2 bits
+
+4 bits
+
+Opcode
+
+Condição
+
+M
+
+Reg_modo
+
+W
+
+Instrução de salto relativo incondicional
+BR
+16 bits
+6 bits
+
+6 bits
+
+Opcode
+
+Deslocamento
+
+Instrução de salto relativo incondicional
+BR.cond
+
+6 bits
+
+16 bits
+4 bits
+
+6 bits
+
+Opcode
+
+Condição
+
+Deslocamento
+
+32
+
+Codificação da condição de salto
+Condição
+Zero
+Não zero
+Transporte
+Não transporte
+Negativo
+Não negativo
+Excesso
+Não excesso
+Positivo
+Não positivo
+Interrupção
+Não interrupção
+
+Mnemónica
+Z
+NZ
+C
+NC
+N
+NN
+O
+NO
+P
+NP
+I
+NI
+
+Código
+0000
+0001
+0010
+0011
+0100
+0101
+0110
+0111
+1000
+1001
+1010
+1011
+
+Códigos de Operação
+Mnemónica
+NOP
+ENI
+DSI
+STC
+CLC
+CMC
+RET
+RTI
+INT
+RETN
+NEG
+INC
+DEC
+COM
+PUSH
+POP
+SHR
+SHL
+SHRA
+SHLA
+ROR
+ROL
+RORC
+ROLC
+
+Código
+000000
+000001
+000010
+000011
+000100
+000101
+000110
+000111
+001000
+001001
+010000
+010001
+010010
+010011
+010100
+010101
+011000
+011001
+011010
+011011
+011100
+011101
+011110
+011111
+
+Mnemónica
+CMP
+ADD
+ADDC
+SUB
+SUBB
+MUL
+DIV
+TEST
+AND
+OR
+XOR
+MOV
+MVBH
+MVBL
+XCH
+JMP
+JMP.cond
+CALL
+CALL.cond
+BR
+BR.cond
+
+33
+
+Código
+100000
+100001
+100010
+100011
+100100
+100101
+100110
+100111
+101000
+101001
+101010
+101011
+101100
+101101
+101110
+110000
+110001
+110010
+110011
+111000
+111001
+
+Modos de Endereçamento
+M
+00
+01
+10
+11
+
+Endereçamento
+Por registo
+Por registo indirecto
+Imediato
+Indexado, directo, relativo ou baseado
+
+Operação
+op = RX
+op = M[RX]
+op = W
+op = M[RX+W]
+
+Selecção do operando com o modo de endereçamento
+S
+0
+1
+
+Operando
+Destino
+Origem
+
+34
+
+B
+
+Conteúdo das ROMs de Controlo
+
+Em apêndice, inclui-se a listagem do conteúdo das ROMs da Unidade de Controlo do processador P3. Estas ROMs podem ser modificadas conforme descrito na Secção 4.5 de forma
+a acrescentar uma instrução assembly ou a alterar o comportamento de uma já existente.
+
+ROM B
+Endereco
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+-
+
+0000
+0001
+0010
+0011
+0100
+0101
+0110
+0111
+1000
+1001
+1010
+1011
+1100
+1101
+1110
+1111
+
+Conteudo
+0x00a
+0x00b
+0x00d
+0x00f
+0x02d
+0x02f
+0x02d
+0x02f
+0x013
+0x017
+0x01d
+0x023
+0x015
+0x01a
+0x020
+0x028
+
+Modo
+F1R0
+F1RI0
+F1IM0
+F1IN0
+WBR0
+WBM0
+WBR0
+WBM0
+F2R0
+F2RI0
+F2IM0
+F2IN0
+F2RS0
+F2RIS0
+F2IMS0
+F2INS0
+
+35
+
+ROM A
+Endereco
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+
+-
+
+000000
+000001
+000010
+000011
+000100
+000101
+000110
+000111
+001000
+001001
+001010
+001011
+001100
+001101
+001110
+001111
+010000
+010001
+010010
+010011
+010100
+010101
+010110
+010111
+011000
+011001
+011010
+011011
+011100
+011101
+011110
+011111
+100000
+100001
+100010
+100011
+100100
+100101
+100110
+100111
+101000
+101001
+101010
+101011
+101100
+101101
+101110
+101111
+110000
+110001
+110010
+110011
+110100
+110101
+110110
+110111
+111000
+111001
+111010
+111011
+111100
+111101
+
+62 - 111110
+63 - 111111
+Conteudo
+0x032
+0x033
+0x037
+0x03b
+0x03e
+0x040
+0x044
+0x047
+0x04c
+0x055
+0x0
+0x0
+0x0
+0x0
+0x0
+0x0
+0x05b
+0x05e
+0x060
+0x062
+0x064
+0x067
+0x0
+0x0
+0x06a
+0x071
+0x078
+0x07f
+0x08c
+0x093
+0x09a
+0x0a1
+0x0c2
+0x0b4
+0x0b6
+0x0b8
+0x0ba
+0x0cf
+0x0dd
+0x0c4
+0x0bc
+0x0be
+0x0c0
+0x0a8
+0x0af
+0x0aa
+0x0ca
+0x0
+0x102
+0x105
+0x109
+0x10d
+0x0
+0x0
+0x0
+0x0
+0x0f9
+0x0f8
+0x0
+0x0
+0x0
+0x0
+
+Instrucao
+NOP
+ENI0
+DSI0
+STC0
+CLC0
+CMC0
+RET0
+RTI0
+INT0
+RETN0
+Livre
+Livre
+Livre
+Livre
+Livre
+Livre
+NEG0
+INC0
+DEC0
+COM0
+PUSH0
+POP0
+Livre
+Livre
+SHR0
+SHL0
+SHRA0
+SHLA0
+ROR0
+ROL0
+RORC0
+ROLC0
+CMP0
+ADD0
+ADDC0
+SUB0
+SUBB0
+MUL0
+DIV0
+TEST0
+AND0
+OR0
+XOR0
+MOV0
+MVBH0
+MVBL0
+XCH0
+Livre
+JMP.C0
+JMP
+CALL.C0
+CALL
+Livre
+Livre
+Livre
+Livre
+BR.C0
+BR
+Livre
+Livre
+Livre
+Livre
+
+36
+
+0x0
+0x0
+
+Livre
+Livre
+
+ROM de Controlo
+31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9
+
+0
+
+M5
+
+S
+R
+1
+
+S
+R
+2
+
+I
+A
+K
+
+FM
+
+M5
+
+S
+R
+1
+
+S
+R
+2
+
+L
+S
+
+MCOND
+
+CALU
+
+M
+A
+
+M
+B
+
+M
+2
+
+M
+R
+B
+
+RB
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+W
+M
+
+W
+R
+
+MD
+
+M
+A
+D
+
+RAD
+
+W
+R
+
+MD
+
+M
+A
+D
+
+RAD
+
+F
+
+1
+
+C
+C
+
+L
+I
+
+L
+F
+
+CONST/NA
+
+Figura 5: Formato das micro-instruções.
+
+Endereco
+000
+001
+002
+003
+004
+005
+006
+007
+008
+009
+010
+011
+012
+013
+014
+015
+016
+017
+018
+019
+020
+021
+022
+023
+024
+025
+026
+027
+028
+029
+030
+031
+032
+033
+034
+035
+036
+037
+038
+039
+040
+041
+042
+043
+
+000h
+001h
+002h
+003h
+004h
+005h
+006h
+007h
+008h
+009h
+00ah
+00bh
+00ch
+00dh
+00eh
+00fh
+010h
+011h
+012h
+013h
+014h
+015h
+016h
+017h
+018h
+019h
+01ah
+01bh
+01ch
+01dh
+01eh
+01fh
+020h
+021h
+022h
+023h
+024h
+025h
+026h
+027h
+028h
+029h
+02ah
+02bh
+
+000000000b
+000000001b
+000000010b
+000000011b
+000000100b
+000000101b
+000000110b
+000000111b
+000001000b
+000001001b
+000001010b
+000001011b
+000001100b
+000001101b
+000001110b
+000001111b
+000010000b
+000010001b
+000010010b
+000010011b
+000010100b
+000010101b
+000010110b
+000010111b
+000011000b
+000011001b
+000011010b
+000011011b
+000011100b
+000011101b
+000011110b
+000011111b
+000100000b
+000100001b
+000100010b
+000100011b
+000100100b
+000100101b
+000100110b
+000100111b
+000101000b
+000101001b
+000101010b
+000101011b
+
+Conteudo
+0x8060001f
+0x400a009f
+0x81c000d8
+0x0008319e
+0x04083f9e
+0x000000b9
+0x804200f8
+0x00023099
+0x000132bf
+0x80100010
+0x2031009d
+0x0031009c
+0x200138bd
+0x00013ebd
+0x200a009f
+0x00013ebc
+0x000a009f
+0x0000009c
+0x200138bd
+0x0031009d
+0x2031409b
+0x0031009b
+0x2031409d
+0x0031009c
+0x000138bd
+0x2031409b
+0x0031009c
+0x000138bb
+0x2031409d
+0x00013ebd
+0x000a009f
+0x2031409b
+0x00013ebb
+0x000a009f
+0x2031409d
+0x00013ebc
+0x000a009f
+0x0000009c
+0x000138bd
+0x2031409b
+0x00013ebc
+0x000a009f
+0x0000009c
+0x000138bb
+
+Etiqueta
+IF0
+IF1
+IH0
+IH1
+IH2
+IH3
+IH4
+IH5
+IH6
+IH7
+F1R0
+F1RI0
+F1RI1
+F1IM0
+F1IM1
+F1IN0
+F1IN1
+F1IN2
+F1IN3
+F2R0
+F2R1
+F2RS0
+F2RS1
+F2RI0
+F2RI1
+F2RI2
+F2RIS0
+F2RIS1
+F2RIS2
+F2IM0
+F2IM1
+F2IM2
+F2IMS0
+F2IMS1
+F2IMS2
+F2IN0
+F2IN1
+F2IN2
+F2IN3
+F2IN4
+F2INS0
+F2INS1
+F2INS2
+F2INS3
+
+37
+
+Operacao
+IR<-M[PC]
+PC<-PC+1, CAR<-ROMA[OP]
+R8<-RE, !EINT?CAR<-IF0
+M[SP]<-R8, SP<-SP-1
+M[SP]<-PC, SP<-SP-1, IAK<-1
+R9<-INTADDR
+R8<-0200h
+R9<-R9-R8
+PC<-M[R9]
+RE<-R0, CAR<-IF0
+RD<-R[IR1], CAR<-SBR
+EA<-R[IR1]
+RD<-M[EA], CAR<-SBR
+RD<-M[PC]
+PC<-PC+1, CAR<-SBR
+EA<-M[PC]
+PC<-PC+1
+EA<-EA+R[IR1]
+RD<-M[EA], CAR<-SBR
+RD<-R[IR1]
+SD<-R[IR2], CAR<-SBR
+SD<-R[IR1]
+RD<-R[IR2], CAR<-SBR
+EA<-R[IR1]
+RD<-M[EA]
+SD<-R[IR2], CAR<-SBR
+EA<-R[IR1]
+SD<-M[EA]
+RD<-R[IR2], CAR<-SBR
+RD<-M[PC]
+PC<-PC+1
+SD<-R[IR2], CAR<-SBR
+SD<-M[PC]
+PC<-PC+1
+RD<-R[IR2], CAR<-SBR
+EA<-M[PC]
+PC<-PC+1
+EA<-EA+R[IR1]
+RD<-M[EA]
+SD<-R[IR2], CAR<-SBR
+EA<-M[PC]
+PC<-PC+1
+EA<-EA+R[IR1]
+SD<-M[EA]
+
+0
+
+044
+045
+046
+047
+048
+049
+050
+051
+052
+053
+054
+055
+056
+057
+058
+059
+060
+061
+062
+063
+064
+065
+066
+067
+068
+069
+070
+071
+072
+073
+074
+075
+076
+077
+078
+079
+080
+081
+082
+083
+084
+085
+086
+087
+088
+089
+090
+091
+092
+093
+094
+095
+096
+097
+098
+099
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+
+02ch
+02dh
+02eh
+02fh
+030h
+031h
+032h
+033h
+034h
+035h
+036h
+037h
+038h
+039h
+03ah
+03bh
+03ch
+03dh
+03eh
+03fh
+040h
+041h
+042h
+043h
+044h
+045h
+046h
+047h
+048h
+049h
+04ah
+04bh
+04ch
+04dh
+04eh
+04fh
+050h
+051h
+052h
+053h
+054h
+055h
+056h
+057h
+058h
+059h
+05ah
+05bh
+05ch
+05dh
+05eh
+05fh
+060h
+061h
+062h
+063h
+064h
+065h
+066h
+067h
+068h
+069h
+06ah
+06bh
+06ch
+06dh
+
+000101100b
+000101101b
+000101110b
+000101111b
+000110000b
+000110001b
+000110010b
+000110011b
+000110100b
+000110101b
+000110110b
+000110111b
+000111000b
+000111001b
+000111010b
+000111011b
+000111100b
+000111101b
+000111110b
+000111111b
+001000000b
+001000001b
+001000010b
+001000011b
+001000100b
+001000101b
+001000110b
+001000111b
+001001000b
+001001001b
+001001010b
+001001011b
+001001100b
+001001101b
+001001110b
+001001111b
+001010000b
+001010001b
+001010010b
+001010011b
+001010100b
+001010101b
+001010110b
+001010111b
+001011000b
+001011001b
+001011010b
+001011011b
+001011100b
+001011101b
+001011110b
+001011111b
+001100000b
+001100001b
+001100010b
+001100011b
+001100100b
+001100101b
+001100110b
+001100111b
+001101000b
+001101001b
+001101010b
+001101011b
+001101100b
+001101101b
+
+0x2031409d
+0x00313a80
+0x80000200
+0x83002d00
+0x00003b1c
+0x80000200
+0x80000200
+0x804010f8
+0x000000d9
+0x00143298
+0x80100218
+0x80400ff8
+0x000000d9
+0x00123298
+0x80100218
+0x00112098
+0x010a0018
+0x80000200
+0x01002010
+0x80000200
+0x804004f8
+0x000000d9
+0x00163298
+0x80100218
+0x000a009e
+0x00013cbf
+0x80000200
+0x000a009e
+0x00013cbf
+0x000a009e
+0x00013cb8
+0x80100218
+0x000000d8
+0x0008319e
+0x00083f9e
+0x8040fff8
+0x00128098
+0x804200f9
+0x00023298
+0x000130bf
+0x80100010
+0x000a009e
+0x00013cbf
+0x8043fff8
+0x00128098
+0x0000309e
+0x80000200
+0xe40000f8
+0x03c23a98
+0x7031309d
+0xe4000000
+0x73ca009d
+0xe4000000
+0x73c8009d
+0xe4000000
+0x7290009d
+0xe4000000
+0x00083b9e
+0x80000200
+0xe4000000
+0x000a009e
+0x70013cbd
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03a0009d
+
+F2INS4
+WBR0
+WBR1
+WBM0
+WBM1
+WBM2
+NOP0
+ENI0
+ENI1
+ENI2
+ENI3
+DSI0
+DSI1
+DSI2
+DSI3
+STC0
+STC1
+STC2
+CLC0
+CLC1
+CMC0
+CMC1
+CMC2
+CMC3
+RET0
+RET1
+RET2
+RTI0
+RTI1
+RTI2
+RTI3
+RTI4
+INT0
+INT1
+INT2
+INT3
+INT4
+INT5
+INT6
+INT7
+INT8
+RETN0
+RETN1
+RETN2
+RETN3
+RETN4
+RETN5
+NEG0
+NEG1
+NEG2
+INC0
+INC1
+DEC0
+DEC1
+COM0
+COM1
+PUSH0
+PUSH1
+PUSH2
+POP0
+POP1
+POP2
+SHR0
+SHR1
+SHR2
+SHR3
+
+38
+
+RD<-R[IR2], CAR<-SBR
+R[WBR]<-RD
+CAR<-IH0
+S?CAR<-WBR0 (modo no outro)
+M[EA]<-RD
+CAR<-IH0
+CAR<-IH0
+R8<-0010h
+R9<-RE
+R8<-R8 or R9
+RE<-R8, CAR<-IH0
+R8<-000fh
+R9<-RE
+R8<-R8 and R9
+RE<-R8, CAR<-IH0
+R8<-not R0
+R8+1, flag C
+CAR<-IH0
+R0+R0, flag C
+CAR<-IH0
+R8<-0004
+R9<-RE
+R8<-R8 exor R9
+RE<-R8, CAR<-IH0
+SP<-SP+1
+PC<-M[SP]
+CAR<-IH0
+SP<-SP+1
+PC<-M[SP]
+SP<-SP+1
+R8<-M[SP]
+RE<-R8, CAR<-IH0
+R8<-RE
+M[SP]<-R8, SP<-SP-1
+M[SP]<-PC, SP<-SP-1
+R8<-00ffh
+R8<-IR and R8
+R9<-0200h
+R8<-R8-R9
+PC<-M[R8]
+RE<-R0, CAR<-IF0
+SP<-SP+1
+PC<-M[SP]
+R8<-03ffh
+R8<-IR and R8
+SP<-SP+R8
+CAR<-IH0
+R8<-0, SBR<-CAR+1, CAR<-F1
+R8<-R8-RD, flags ZCNO
+RD<-R8, CAR<-WB
+SBR<-CAR+1, CAR<-F1
+RD<-RD+1, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F1
+RD<-RD-1, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F1
+RD<-!RD, flags ZN, CAR<-WB
+SBR<-CAR+1, CAR<-F1
+M[SP]<-RD, SP<-SP-1
+CAR<-IH0
+SBR<-CAR+1, CAR<-F1
+SP<-SP+1
+RD<-M[SP], CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-shr RD, flags ZCN
+
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+
+06eh
+06fh
+070h
+071h
+072h
+073h
+074h
+075h
+076h
+077h
+078h
+079h
+07ah
+07bh
+07ch
+07dh
+07eh
+07fh
+080h
+081h
+082h
+083h
+084h
+085h
+086h
+087h
+088h
+089h
+08ah
+08bh
+08ch
+08dh
+08eh
+08fh
+090h
+091h
+092h
+093h
+094h
+095h
+096h
+097h
+098h
+099h
+09ah
+09bh
+09ch
+09dh
+09eh
+09fh
+0a0h
+0a1h
+0a2h
+0a3h
+0a4h
+0a5h
+0a6h
+0a7h
+0a8h
+0a9h
+0aah
+0abh
+0ach
+0adh
+0aeh
+0afh
+
+001101110b
+001101111b
+001110000b
+001110001b
+001110010b
+001110011b
+001110100b
+001110101b
+001110110b
+001110111b
+001111000b
+001111001b
+001111010b
+001111011b
+001111100b
+001111101b
+001111110b
+001111111b
+010000000b
+010000001b
+010000010b
+010000011b
+010000100b
+010000101b
+010000110b
+010000111b
+010001000b
+010001001b
+010001010b
+010001011b
+010001100b
+010001101b
+010001110b
+010001111b
+010010000b
+010010001b
+010010010b
+010010011b
+010010100b
+010010101b
+010010110b
+010010111b
+010011000b
+010011001b
+010011010b
+010011011b
+010011100b
+010011101b
+010011110b
+010011111b
+010100000b
+010100001b
+010100010b
+010100011b
+010100100b
+010100101b
+010100110b
+010100111b
+010101000b
+010101001b
+010101010b
+010101011b
+010101100b
+010101101b
+010101110b
+010101111b
+
+0x00023298
+0x80c06d00
+0x70000000
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03a2009d
+0x00023298
+0x80c07400
+0x70000000
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03e4009d
+0x00023298
+0x80c07b00
+0x70000000
+0xe403c0f8
+0x00128098
+0x0031209a
+0x03e6009d
+0x000000d9
+0x0014329a
+0x804040f9
+0x00023298
+0x80c082d9
+0x804001f8
+0x0012309a
+0x0014329a
+0xf010001a
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03a8009d
+0x00023298
+0x80c08f00
+0x70000000
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03aa009d
+0x00023298
+0x80c09600
+0x70000000
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03ac009d
+0x00023298
+0x80c09d00
+0x70000000
+0xe403c0f8
+0x00128098
+0x804040f9
+0x03ae009d
+0x00023298
+0x80c0a400
+0x70000000
+0xec000000
+0x7031369d
+0xec00fff8
+0x00113099
+0x0012329d
+0x00123698
+0x7014309d
+0xec00fff8
+
+SHR4
+SHR5
+SHR6
+SHL0
+SHL1
+SHL2
+SHL3
+SHL4
+SHL5
+SHL6
+SHRA0
+SHRA1
+SHRA2
+SHRA3
+SHRA4
+SHRA5
+SHRA6
+SHLA0
+SHLA1
+SHLA2
+SHLA3
+SHLA4
+SHLA5
+SHLA6
+SHLA7
+SHLA8
+SHLA9
+SHLA10
+SHLA11
+SHLA12
+ROR0
+ROR1
+ROR2
+ROR3
+ROR4
+ROR5
+ROR6
+ROL0
+ROL1
+ROL2
+ROL3
+ROL4
+ROL5
+ROL6
+RORC0
+RORC1
+RORC2
+RORC3
+RORC4
+RORC5
+RORC6
+ROLC0
+ROLC1
+ROLC2
+ROLC3
+ROLC4
+ROLC5
+ROLC6
+MOV0
+MOV1
+MVBL0
+MVBL1
+MVBL2
+MVBL3
+MVBL4
+MVBH0
+
+39
+
+R8<-R8-R9
+!z?CAR<-SHR3
+CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-shl RD, flags ZCN
+R8<-R8-R9
+!z?CAR<-SHL3
+CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-shra RD, flags ZCNO
+R8<-R8-R9
+!z?CAR<-SHRA3
+CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R10<-R0
+RD<-shla RD, flags ZCNO
+R9<-RE
+R10<-R10 or R9
+R9<-0040h
+R8<-R8-R9
+R9<-RE, !z?CAR<-SHLA3
+R8<-1
+R10<-R10 and R8
+R10<-R10 or R9
+RE<-R10, CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-ror RD, flags ZCN
+R8<-R8-R9
+!z?CAR<-ROR3
+CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-rol RD, flags ZCN
+R8<-R8-R9
+!z?CAR<-ROL3
+CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-rorc RD, flags ZCN
+R8<-R8-R9
+!z?CAR<-RORC3
+CAR<-WB
+R8<-03c0h, SBR<-CAR+1, CAR<-F1
+R8<-R8 and IR
+R9<-0040h
+RD<-rolc RD, flags ZCN
+R8<-R8-R9
+!z?CAR<-ROLC3
+CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-SD, CAR<-WB
+R8<-00ffh, SBR<-CAR+1, CAR<-F2
+R9<-!R8
+RD<-RD and R9
+R8<-R8 and SD
+RD<-RD or R8, CAR<-WB
+R8<-00ffh, SBR<-CAR+1, CAR<-F2
+
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+
+0b0h
+0b1h
+0b2h
+0b3h
+0b4h
+0b5h
+0b6h
+0b7h
+0b8h
+0b9h
+0bah
+0bbh
+0bch
+0bdh
+0beh
+0bfh
+0c0h
+0c1h
+0c2h
+0c3h
+0c4h
+0c5h
+0c6h
+0c7h
+0c8h
+0c9h
+0cah
+0cbh
+0cch
+0cdh
+0ceh
+0cfh
+0d0h
+0d1h
+0d2h
+0d3h
+0d4h
+0d5h
+0d6h
+0d7h
+0d8h
+0d9h
+0dah
+0dbh
+0dch
+0ddh
+0deh
+0dfh
+0e0h
+0e1h
+0e2h
+0e3h
+0e4h
+0e5h
+0e6h
+0e7h
+0e8h
+0e9h
+0eah
+0ebh
+0ech
+0edh
+0eeh
+0efh
+0f0h
+0f1h
+
+010110000b
+010110001b
+010110010b
+010110011b
+010110100b
+010110101b
+010110110b
+010110111b
+010111000b
+010111001b
+010111010b
+010111011b
+010111100b
+010111101b
+010111110b
+010111111b
+011000000b
+011000001b
+011000010b
+011000011b
+011000100b
+011000101b
+011000110b
+011000111b
+011001000b
+011001001b
+011001010b
+011001011b
+011001100b
+011001101b
+011001110b
+011001111b
+011010000b
+011010001b
+011010010b
+011010011b
+011010100b
+011010101b
+011010110b
+011010111b
+011011000b
+011011001b
+011011010b
+011011011b
+011011100b
+011011101b
+011011110b
+011011111b
+011100000b
+011100001b
+011100010b
+011100011b
+011100100b
+011100101b
+011100110b
+011100111b
+011101000b
+011101001b
+011101010b
+011101011b
+011101100b
+011101101b
+011101110b
+011101111b
+011110000b
+011110001b
+
+0x00113099
+0x0012309d
+0x00123699
+0x7014329d
+0xec000000
+0x73c0369d
+0xec000000
+0x73c4369d
+0xec000000
+0x73c2369d
+0xec000000
+0x73c6369d
+0xec000000
+0x7292369d
+0xec000000
+0x7294369d
+0xec000000
+0x7296369d
+0xec000000
+0x73c2361d
+0xec000000
+0x7292361d
+0x8340c900
+0x8240c900
+0x7000371c
+0x70317680
+0xec000000
+0x00313a98
+0x0031369d
+0x0031309b
+0x8000c600
+0xec0010f8
+0x000000da
+0x0013b09a
+0x00313a99
+0x01f1209d
+0x002c009b
+0x8150d71a
+0x0100329d
+0x012c009d
+0x00080098
+0x80c0d400
+0x012c009b
+0x0200361d
+0x8000c600
+0xec0000d8
+0x0000201b
+0x80c0e300
+0x804001f9
+0x00143298
+0x80100218
+0x01c12099
+0x0002361d
+0x8140f500
+0x00312098
+0x000a0098
+0x0122009b
+0x8100ec00
+0x0002361d
+0x8100e700
+0x002c009b
+0x0102369d
+0x8100f100
+0x0000369d
+0x01300010
+0x002e0099
+
+MVBH1
+MVBH2
+MVBH3
+MVBH4
+ADD0
+ADD1
+ADDC0
+ADDC1
+SUB0
+SUB1
+SUBB0
+SUBB1
+AND0
+AND1
+OR0
+OR1
+XOR0
+XOR1
+CMP0
+CMP1
+TEST0
+TEST1
+WSD0
+WSD1
+WSD2
+WSD3
+XCH0
+XCH1
+XCH2
+XCH3
+XCH4
+MUL0
+MUL1
+MUL2
+MUL3
+MUL4
+MUL5
+MUL6
+MUL7
+MUL8
+MUL9
+MUL10
+MUL11
+MUL12
+MUL13
+DIV0
+DIV1
+DIV2
+DIV3
+DIV4
+DIV5
+DIV6
+DIV7
+DIV8
+DIV9
+DIV10
+DIV11
+DIV12
+DIV13
+DIV14
+DIV15
+DIV16
+DIV17
+DIV18
+DIV19
+DIV20
+
+R9<-!R8
+RD<-RD and R8
+R9<-R9 and SD
+RD<-RD or R9, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD+SD, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD+SD+C, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD-SD, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD-SD-!C, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD and SD, flags ZN, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD or SD, flags ZN, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD xor SD, flags ZN, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD-SD, flags ZCNO, CAR<-WB
+SBR<-CAR+1, CAR<-F2
+RD<-RD and SD, flags ZN, CAR<-WB
+!S?CAR<-WSD3
+(mode on RD)
+!M0?CAR<-WSD3 (mode REG or IMM)
+M[EA]<-SD, CAR<-WB
+(mode MEM)
+R[!WBR]<-SD, CAR<-WB (mode REG)
+SBR<-CAR+1, CAR<-F2
+R8<-RD
+RD<-SD
+SD<-R8
+CAR<-WSD0
+R8<-16, SBR<-CAR+1, CAR<-F2
+R10<-RE
+R10<-R10 and R8
+(flag E)
+R9<-RD
+RD<-R0, flags CNO (clear flags)
+SD<-rorc SD
+RE<-R10, !c?CAR<-MUL8
+RD<-RD+R9, flag C
+RD<-rorc RD, flag C
+R8<-R8-1
+!z?CAR<-MUL5
+SD<-rorc SD, flag C (C=0)
+RD+SD, flag Z
+CAR<-WSD0
+R8<-RE, SBR<-CAR+1, CAR<-F2
+SD<-SD+R0
+!z?CAR<-DIV6
+R9<-0001
+(divisao por 0!)
+R8<-R8 or R9
+RE<-R8, CAR<-IH0
+(O<-1)
+R9<-R0+R0, flags CNO (clear flag)
+RD-SD
+!c?CAR<-DIV24
+(result=0)
+R8<-R0
+R8<-R8+1
+SD<-shl SD, flag C
+c?CAR<-DIV15
+RD-SD
+c?CAR<-DIV10
+SD<-rorc SD
+RD<-RD-SD, flag C
+c?CAR<-DIV20
+RD<-RD+SD
+(<0:repoe)
+R0, flag C
+(C<-0)
+R9<-rolc R9
+
+40
+
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+
+0f2h
+0f3h
+0f4h
+0f5h
+0f6h
+0f7h
+0f8h
+0f9h
+0fah
+0fbh
+0fch
+0fdh
+0feh
+0ffh
+100h
+101h
+102h
+103h
+104h
+105h
+106h
+107h
+108h
+109h
+10ah
+10bh
+10ch
+10dh
+10eh
+10fh
+110h
+111h
+
+011110010b
+011110011b
+011110100b
+011110101b
+011110110b
+011110111b
+011111000b
+011111001b
+011111010b
+011111011b
+011111100b
+011111101b
+011111110b
+011111111b
+100000000b
+100000001b
+100000010b
+100000011b
+100000100b
+100000101b
+100000110b
+100000111b
+100001000b
+100001001b
+100001010b
+100001011b
+100001100b
+100001101b
+100001110b
+100001111b
+100010000b
+100010001b
+
+0x0020009b
+0x00080098
+0x80c0ed00
+0x00313a9b
+0x0331329d
+0x8000c600
+0x83c00200
+0x80403ff8
+0x0013b099
+0x804020fa
+0x0012329a
+0x80810000
+0x00100098
+0x00143099
+0x0000329f
+0x80000200
+0xe4000000
+0x00313a9f
+0x80000200
+0xe4000000
+0x83c00200
+0x00313a9f
+0x80000200
+0xe4000000
+0x00083f9e
+0x00313a9f
+0x80000200
+0xe4000000
+0x83c00200
+0x00083f9e
+0x00313a9f
+0x80000200
+
+DIV21
+DIV22
+DIV23
+DIV24
+DIV25
+DIV26
+BR.C0
+BR0
+BR1
+BR2
+BR3
+BR4
+BR5
+BR6
+BR7
+BR8
+JMP0
+JMP1
+JMP2
+JMP.C0
+JMP.C1
+JMP.C2
+JMP.C3
+CALL0
+CALL1
+CALL2
+CALL3
+CALL.C0
+CALL.C1
+CALL.C2
+CALL.C3
+CALL.C4
+
+(livre do endereco 274 ao 511)
+
+41
+
+SD<-shr SD
+R8<-R8-1
+!z?CAR<-DIV16
+SD<-RD
+RD<-R9, flags ZC
+CAR<-WSD0
+!COND?CAR<-IH0
+R8<-003fh
+R9<-R8 and RI
+R10<-0020h
+(teste do sinal)
+R10<-R10 and R9
+z?CAR<-BR7
+R8<-not R8
+R9<-R9 or R8
+PC<-PC+R9
+CAR<-IH0
+SBR<-CAR+1, CAR<-F1
+PC<-RD
+CAR<-IH0
+SBR<-CAR+1, CAR<-F1
+!COND?CAR<-IH0
+PC<-RD
+CAR<-IH0
+SBR<-CAR+1, CAR<-F1
+M[SP]<-PC, SP<-SP-1
+PC<-RD
+CAR<-IH0
+SBR<-CAR+1, CAR<-F1
+!COND?CAR<-IH0
+M[SP]<-PC, SP<-SP-1
+PC<-RD
+CAR<-IH0
+
+

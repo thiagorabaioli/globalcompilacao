@@ -1,0 +1,84 @@
+// Exemplo para demonstrar otimizações TAC
+int global;
+
+// Função para calcular dobro com constantes
+int calculaDobro(int x) {
+    int a, b, c;
+    a = 2;  // Valor constante
+    b = a;  // Cópia de variável
+    c = b;  // Cópia de variável em cascata
+    
+    return x * c;  // c deve ser otimizado para 2
+}
+
+// Função com expressões comuns
+int expressoesDuplicadas(int n) {
+    int x, y, z;
+    
+    // Expressões que podem ser reaproveitadas
+    x = n * 2 + 3;
+    y = n * 2 + 3;  // Mesma expressão que x, deve ser otimizada
+    
+    // Operações com constantes que podem ser pré-calculadas
+    z = 10 + 5;     // Deve ser otimizado para z = 15
+    
+    return x + y + z;
+}
+
+// Função com código morto
+int codigoMorto(int valor) {
+    int a, b, c;
+    
+    a = 10;         // Usado
+    b = 20;         // Código morto (nunca usado)
+    c = a + 5;      // Usado
+    
+    return a + c;   // b não é usado
+}
+
+// Função com atribuições redundantes
+int atribuicoesRedundantes(int x) {
+    int temp;
+    
+    temp = 5;       // Será sobrescrito
+    temp = 10;      // Sobrescreve temp=5
+    
+    temp = x;       // Será sobrescrito
+    temp = x + 1;   // Usa x
+    
+    return temp;
+}
+
+// Função principal com vários exemplos de otimização
+void main(void) {
+    int resultado, i, j;
+    
+    // Dobro calculado com constantes
+    resultado = calculaDobro(5);
+    write("Dobro de 5: ");
+    write(resultado);
+    
+    // Expressões duplicadas
+    resultado = expressoesDuplicadas(3);
+    write("Resultado de expressoes: ");
+    write(resultado);
+    
+    // Constantes já calculadas
+    i = 2 + 2;      // Deve ser otimizado para i = 4
+    j = 3 * 4;      // Deve ser otimizado para j = 12
+    
+    // Propagação de cópias
+    int a = 100;
+    int b = a;      // Cópia
+    int c = b;      // Cópia em cascata
+    write(c);       // Deve usar 'a' diretamente após otimização
+    
+    // Código morto
+    int temp;
+    temp = 50;      // Nunca usado, deve ser eliminado
+    
+    // Código com atribuições redundantes
+    resultado = atribuicoesRedundantes(10);
+    write("Resultado atribuicoes: ");
+    write(resultado);
+} 

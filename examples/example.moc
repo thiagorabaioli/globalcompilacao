@@ -1,0 +1,64 @@
+// Exemplo de código MOC para testar o compilador
+
+int a, b;
+double c;
+int vec[10];
+
+// Protótipo da função
+int soma(int x, int y);
+
+// Função para somar dois números
+int soma(int x, int y) {
+    return x + y;
+}
+
+// Função para calcular fatorial
+int fatorial(int n) {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return n * fatorial(n - 1);
+    }
+}
+
+// Função principal
+void main(void) {
+    // Declarações e inicializações
+    int i = 0;
+    int resultado;
+    double d = 3.14;
+    int numeros[5] = {10, 20, 30, 40, 50};
+    
+    // Leitura
+    write("Digite um numero: ");
+    a = read();
+    
+    // Estrutura de decisão
+    if (a > 0) {
+        write("Positivo!");
+    } else {
+        write("Nao positivo!");
+    }
+    
+    // Estrutura de repetição - while
+    i = 0;
+    while (i < 5) {
+        write(numeros[i]);
+        i = i + 1;
+    }
+    
+    // Estrutura de repetição - for
+    for (i = 0; i < 10; i = i + 1) {
+        vec[i] = i * 2;
+    }
+    
+    // Chamada de função
+    resultado = soma(a, 5);
+    write("Soma: ");
+    write(resultado);
+    
+    // Cálculo de fatorial
+    write("Fatorial de 5: ");
+    resultado = fatorial(5);
+    write(resultado);
+}

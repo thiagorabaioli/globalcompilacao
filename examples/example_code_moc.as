@@ -1,0 +1,130 @@
+ORIG 1000h
+soma_start: MOV R1, M[x]
+MOV R2, M[y]
+ADD R1, R2
+MOV R3, R1
+MOV M[t0], R3
+MOV R1, M[t0]
+RET
+fatorial_start: MOV R1, M[t1]
+CMP R1, 0
+JMP.Z L0
+MOV R1, 1
+RET
+JMP L1
+L0: MOV R1, M[n]
+MOV R2, 1
+SUB R1, R2
+MOV R3, R1
+MOV M[t2], R3
+MOV R1, M[n]
+MOV R2, M[t3]
+MUL R1, R2
+MOV R3, R1
+MOV M[t4], R3
+MOV R1, M[t4]
+RET
+main_start: MOV R1, 0
+MOV M[i], R1
+MOV M[d], R1
+MOV R1, 10
+MOV M[numeros], R1
+MOV R1, 20
+MOV R7, numeros
+ADD R7, 1
+MOV M[R7], R1
+MOV R1, 30
+MOV R7, numeros
+ADD R7, 2
+MOV M[R7], R1
+MOV R1, 40
+MOV R7, numeros
+ADD R7, 3
+MOV M[R7], R1
+MOV R1, 50
+MOV R7, numeros
+ADD R7, 4
+MOV M[R7], R1
+MOV R1, M[FFFFh]
+MOV M[null], R1
+MOV R1, M[t5]
+MOV M[a], R1
+MOV R1, M[t6]
+CMP R1, 0
+JMP.Z L2
+JMP L3
+L3: MOV R1, 0
+MOV M[i], R1
+L4: MOV R1, M[t7]
+CMP R1, 0
+JMP.Z L5
+MOV R7, numeros
+ADD R7, i
+MOV R1, M[R7]
+MOV M[t8], R1
+MOV R1, M[t8]
+MOV M[FFFEh], R1
+MOV R1, M[i]
+MOV R2, 1
+ADD R1, R2
+MOV R3, R1
+MOV M[t9], R3
+MOV R1, M[t9]
+MOV M[i], R1
+JMP L4
+L5: MOV R1, 0
+MOV M[i], R1
+L6: MOV R1, M[t10]
+CMP R1, 0
+JMP.Z L7
+MOV R1, M[i]
+MOV R2, 2
+MUL R1, R2
+MOV R3, R1
+MOV M[t11], R3
+MOV R1, M[t11]
+MOV R7, vec
+ADD R7, i
+MOV M[R7], R1
+MOV R1, M[i]
+MOV R2, 1
+ADD R1, R2
+MOV R3, R1
+MOV M[t12], R3
+MOV R1, M[t12]
+MOV M[i], R1
+JMP L6
+L7: MOV R1, M[t13]
+MOV M[resultado], R1
+MOV R1, M[resultado]
+MOV M[FFFEh], R1
+MOV R1, M[t14]
+MOV M[resultado], R1
+MOV R1, M[resultado]
+MOV M[FFFEh], R1
+main_end: 
+t4: WORD 0
+t5: WORD 0
+a: WORD 0
+t6: WORD 0
+t7: WORD 0
+d: WORD 0
+t8: WORD 0
+resultado: WORD 0
+t9: WORD 0
+i: WORD 0
+n: WORD 0
+t10: WORD 0
+null: WORD 0
+t12: WORD 0
+t11: WORD 0
+t14: WORD 0
+t13: WORD 0
+x: WORD 0
+y: WORD 0
+t0: WORD 0
+t1: WORD 0
+t2: WORD 0
+t3: WORD 0
+numeros: TAB 10
+vec: TAB 10
